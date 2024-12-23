@@ -39,8 +39,6 @@ public class Registries {
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
-
-
     }
 }
 
