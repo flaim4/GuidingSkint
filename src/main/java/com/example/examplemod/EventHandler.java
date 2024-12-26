@@ -1,11 +1,12 @@
 package com.example.examplemod;
 
+import com.example.examplemod.worldgen.blocks.custom.AnimatedBlockRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraft.client.Minecraft;
 
 @Mod.EventBusSubscriber(modid = ExampleMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EventHandler {
@@ -21,8 +22,7 @@ public class EventHandler {
     public static class ClientEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            ExampleMod.LOGGER.info("HELLO FROM CLIENT SETUP");
-            ExampleMod.LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            BlockEntityRenderers.register(Registries.ANIMATED_BLOCK_ENTITY.get(), AnimatedBlockRenderer::new);
         }
     }
 }

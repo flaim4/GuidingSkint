@@ -46,7 +46,7 @@ public class ObeliskFeature extends Feature<NoneFeatureConfiguration> {
                 BlockState blockStateAbove = level.getBlockState(pos.offset(x, 1, z));
                 BlockState blockState = level.getBlockState(pos.offset(x, 0, z));
                 BlockState blockStateBelow = level.getBlockState(pos.offset(x, -1, z));
-                if (!blockState.canBeReplaced() || blockState.is(Blocks.WATER) || !blockStateAbove.canBeReplaced() || !blockStateBelow.canOcclude() || blockStateBelow.canBeReplaced() || ExampleMod.random.nextInt(100) > 60) return false;
+                if (!blockState.canBeReplaced() || blockState.is(Blocks.WATER) || !blockStateAbove.canBeReplaced() || !blockStateBelow.canOcclude() || blockStateBelow.canBeReplaced() || ExampleMod.RANDOM.nextInt(100) > 60) return false;
             }
         }
         return true;
