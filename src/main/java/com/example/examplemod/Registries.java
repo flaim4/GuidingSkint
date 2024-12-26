@@ -34,8 +34,7 @@ public class Registries {
     public static final RegistryObject<Block> EXAMPLE_BLOCK = BLOCKS.register("example_block", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)));
 
     public static final RegistryObject<Block> ANIMATED_BLOCK = BLOCKS.register("animated_block",
-            () -> new AnimatedBlock(BlockBehaviour.Properties.copy(Blocks.STONE).sound(SoundType.STONE).strength(1f).noOcclusion()));
-
+            () -> new AnimatedBlock(BlockBehaviour.Properties.copy(Blocks.STONE).sound(SoundType.STONE).strength(1f).noOcclusion().lightLevel(state -> 15)));
 
     public static final RegistryObject<BlockEntityType<AnimatedBlockEntity>> ANIMATED_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("animated_block_entity", () ->
@@ -56,9 +55,6 @@ public class Registries {
 
     // FEATURES
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> OBELISK_FEATURE = FEATURES.register("obelisk_feature", () -> new ObeliskFeature(NoneFeatureConfiguration.CODEC));
-
-
-
 
     public static void register(IEventBus modEventBus) {
         BLOCKS.register(modEventBus);
