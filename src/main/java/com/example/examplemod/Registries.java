@@ -1,5 +1,7 @@
 package com.example.examplemod;
 
+import com.example.examplemod.worldgen.blocks.custom.AnimatedBlock;
+import com.example.examplemod.worldgen.blocks.entities.AnimatedBlockEntity;
 import com.example.examplemod.worldgen.feature.ObeliskFeature;
 
 import net.minecraft.world.food.FoodProperties;
@@ -8,6 +10,9 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
@@ -23,9 +28,19 @@ public class Registries {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ExampleMod.MODID);
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB, ExampleMod.MODID);
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, ExampleMod.MODID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, ExampleMod.MODID);
 
     // BLOCK
     public static final RegistryObject<Block> EXAMPLE_BLOCK = BLOCKS.register("example_block", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)));
+
+    public static final RegistryObject<Block> ANIMATED_BLOCK = BLOCKS.register("animated_block",
+            () -> new AnimatedBlock(BlockBehaviour.Properties.copy(Blocks.STONE).sound(SoundType.STONE).strength(1f).noOcclusion()));
+
+
+    public static final RegistryObject<BlockEntityType<AnimatedBlockEntity>> ANIMATED_BLOCK_ENTITY =
+            BLOCK_ENTITIES.register("animated_block_entity", () ->
+                    BlockEntityType.Builder.of(AnimatedBlockEntity::new,
+                            ANIMATED_BLOCK.get()).build(null));
 
     // ITEMS
     public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register("example_item", () -> new Item(new Item.Properties().food(new FoodProperties.Builder()
@@ -41,13 +56,16 @@ public class Registries {
 
     // FEATURES
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> OBELISK_FEATURE = FEATURES.register("obelisk_feature", () -> new ObeliskFeature(NoneFeatureConfiguration.CODEC));
-    
+
+
+
 
     public static void register(IEventBus modEventBus) {
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
         FEATURES.register(modEventBus);
+        BLOCK_ENTITIES.register(modEventBus);
     }
 }
 
