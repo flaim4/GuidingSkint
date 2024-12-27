@@ -23,7 +23,6 @@ public class ExampleMod {
         GeckoLib.initialize();
         IEventBus modEventBus = context.getModEventBus();
         Registries.register(modEventBus);
-        MinecraftForge.EVENT_BUS.register(new EventHandler());
 
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }

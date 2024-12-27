@@ -1,9 +1,11 @@
 package com.example.examplemod;
 
-import com.example.examplemod.worldgen.blocks.custom.AnimatedBlock;
-import com.example.examplemod.worldgen.blocks.entities.AnimatedBlockEntity;
+import com.example.examplemod.worldgen.block.custom.AnimatedBlock;
+import com.example.examplemod.worldgen.block.entitie.AnimatedBlockEntity;
 import com.example.examplemod.worldgen.feature.ObeliskFeature;
 
+import com.example.examplemod.worldgen.item.custom.AnimatedBlockItem;
+import com.example.examplemod.worldgen.item.custom.AnimatedItem;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -17,7 +19,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.material.MapColor;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -44,7 +45,15 @@ public class Registries {
     // ITEMS
     public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register("example_item", () -> new Item(new Item.Properties().food(new FoodProperties.Builder()
             .alwaysEat().nutrition(1).saturationMod(2f).build())));
+
     public static final RegistryObject<Item> EXAMPLE_BLOCK_ITEM = ITEMS.register("example_block", () -> new BlockItem(EXAMPLE_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> ANIMATED_ITEM = ITEMS.register("animated_item",
+            () -> new AnimatedItem(new Item.Properties()));
+
+    public static final RegistryObject<Item> ANIMATED_BLOCK_ITEM = ITEMS.register("animated_block",
+            () -> new AnimatedBlockItem(ANIMATED_BLOCK.get(), new Item.Properties()));
+
 
     // TABS
     public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
