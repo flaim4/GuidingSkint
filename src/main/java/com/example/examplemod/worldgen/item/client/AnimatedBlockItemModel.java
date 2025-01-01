@@ -2,11 +2,12 @@ package com.example.examplemod.worldgen.item.client;
 
 import com.example.examplemod.ExampleMod;
 import com.example.examplemod.worldgen.item.custom.AnimatedBlockItem;
+
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.model.GeoModel;
 
 public class AnimatedBlockItemModel extends GeoModel<AnimatedBlockItem> {
-    @Override
+     @Override
     public ResourceLocation getModelResource(AnimatedBlockItem animatable) {
         return new ResourceLocation(ExampleMod.MODID, "geo/animated_block.geo.json");
     }
