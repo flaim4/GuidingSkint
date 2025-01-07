@@ -1,6 +1,7 @@
-package com.example.examplemod.worldgen.block.entitie;
+package com.example.examplemod.block.entity;
 
-import com.example.examplemod.Registries;
+import com.example.examplemod.block.SWMBlockEntityType;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -16,7 +17,7 @@ public class AnimatedBlockEntity extends BlockEntity implements GeoBlockEntity {
     private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 
     public AnimatedBlockEntity(BlockPos pos, BlockState state) {
-        super(Registries.ANIMATED_BLOCK_ENTITY.get(), pos, state);
+        super(SWMBlockEntityType.ANIMATED_BLOCK_ENTITY.get(), pos, state);
     }
 
     @Override

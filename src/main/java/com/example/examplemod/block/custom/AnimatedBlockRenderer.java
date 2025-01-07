@@ -1,7 +1,8 @@
-package com.example.examplemod.worldgen.block.custom;
+package com.example.examplemod.block.custom;
 
-import com.example.examplemod.worldgen.block.entitie.AnimatedBlockEntity;
-import com.example.examplemod.worldgen.block.entitie.client.AnimatedBlockModel;
+import com.example.examplemod.block.entity.AnimatedBlockEntity;
+import com.example.examplemod.block.entity.client.AnimatedBlockModel;
+
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import software.bernie.geckolib.renderer.GeoBlockRenderer;
 

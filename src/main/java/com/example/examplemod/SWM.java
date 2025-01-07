@@ -1,5 +1,10 @@
 package com.example.examplemod;
 
+import com.example.examplemod.block.SWMBlockEntityType;
+import com.example.examplemod.block.SWMBlocks;
+import com.example.examplemod.item.SWMCreativeModeTabs;
+import com.example.examplemod.item.SWMItems;
+import com.example.examplemod.worldgen.feature.SWMFeatures;
 import com.mojang.logging.LogUtils;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -12,18 +17,21 @@ import java.util.Random;
 import org.slf4j.Logger;
 import software.bernie.geckolib.GeckoLib;
 
-@Mod(ExampleMod.MODID)
-public class ExampleMod {
+@Mod(SWM.MODID)
+public class SWM {
     public static final String MODID = "examplemod";
     public static final Random RANDOM = new Random();
     public static final Logger LOGGER = LogUtils.getLogger();
 
 
-    public ExampleMod(FMLJavaModLoadingContext context) {
+    public SWM(FMLJavaModLoadingContext context) {
         GeckoLib.initialize();
         IEventBus modEventBus = context.getModEventBus();
-        Registries.register(modEventBus);
-
+        SWMBlocks.init(modEventBus);
+        SWMBlockEntityType.init(modEventBus);
+        SWMItems.init(modEventBus);
+        SWMFeatures.init(modEventBus);
+        SWMCreativeModeTabs.init(modEventBus);
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 }

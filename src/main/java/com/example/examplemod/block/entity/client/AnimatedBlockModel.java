@@ -1,21 +1,22 @@
-package com.example.examplemod.worldgen.block.entitie.client;
+package com.example.examplemod.block.entity.client;
 
-import com.example.examplemod.ExampleMod;
-import com.example.examplemod.worldgen.block.entitie.AnimatedBlockEntity;
+import com.example.examplemod.SWM;
+import com.example.examplemod.block.entity.AnimatedBlockEntity;
+
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.model.GeoModel;
 
 public class AnimatedBlockModel extends GeoModel<AnimatedBlockEntity> {
     @Override
     public ResourceLocation getModelResource(AnimatedBlockEntity animatable) {
-        return new ResourceLocation(ExampleMod.MODID, "geo/animated_block.geo.json");
+        return new ResourceLocation(SWM.MODID, "geo/animated_block.geo.json");
     }
     @Override
     public ResourceLocation getTextureResource(AnimatedBlockEntity animatable) {
-        return new ResourceLocation(ExampleMod.MODID, "textures/block/animated_block.png");
+        return new ResourceLocation(SWM.MODID, "textures/block/animated_block.png");
     }
     @Override
     public ResourceLocation getAnimationResource(AnimatedBlockEntity animatable) {
-        return new ResourceLocation(ExampleMod.MODID, "animations/animated_block.animation.json");
+        return new ResourceLocation(SWM.MODID, "animations/animated_block.animation.json");
     }
 }

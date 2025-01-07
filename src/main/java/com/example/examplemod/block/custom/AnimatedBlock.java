@@ -1,6 +1,5 @@
-package com.example.examplemod.worldgen.block.custom;
+package com.example.examplemod.block.custom;
 
-import com.example.examplemod.worldgen.block.entitie.AnimatedBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -12,6 +11,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
+
+import com.example.examplemod.block.entity.AnimatedBlockEntity;
 
 public class AnimatedBlock extends BaseEntityBlock {
     public AnimatedBlock(Properties properties) {

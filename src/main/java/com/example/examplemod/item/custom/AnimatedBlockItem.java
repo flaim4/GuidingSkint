@@ -1,4 +1,4 @@
-package com.example.examplemod.worldgen.item.custom;
+package com.example.examplemod.item.custom;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
@@ -15,7 +15,7 @@ import software.bernie.geckolib.util.RenderUtils;
 
 import java.util.function.Consumer;
 
-import com.example.examplemod.worldgen.item.client.AnimatedBlockItemRenderer;
+import com.example.examplemod.item.client.AnimatedBlockItemRenderer;
 
 public class AnimatedBlockItem extends BlockItem implements GeoItem {
     private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);

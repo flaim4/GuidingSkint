@@ -1,6 +1,6 @@
-package com.example.examplemod.worldgen.item.client;
+package com.example.examplemod.item.client;
 
-import com.example.examplemod.worldgen.item.custom.AnimatedBlockItem;
+import com.example.examplemod.item.custom.AnimatedBlockItem;
 
 import software.bernie.geckolib.renderer.GeoItemRenderer;
 
