@@ -1,6 +1,7 @@
 package com.example.examplemod.worldgen.feature;
 
 import com.example.examplemod.SWM;
+import com.example.examplemod.worldgen.feature.custom.ObeliskFeature;
 
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;

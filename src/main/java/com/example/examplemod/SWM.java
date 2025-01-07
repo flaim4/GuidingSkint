@@ -4,6 +4,7 @@ import com.example.examplemod.block.SWMBlockEntityType;
 import com.example.examplemod.block.SWMBlocks;
 import com.example.examplemod.item.SWMCreativeModeTabs;
 import com.example.examplemod.item.SWMItems;
+import com.example.examplemod.particle.SWMParticleTypes;
 import com.example.examplemod.worldgen.feature.SWMFeatures;
 import com.mojang.logging.LogUtils;
 import net.minecraftforge.common.MinecraftForge;
@@ -32,6 +33,7 @@ public class SWM {
         SWMItems.init(modEventBus);
         SWMFeatures.init(modEventBus);
         SWMCreativeModeTabs.init(modEventBus);
+        SWMParticleTypes.init(modEventBus);
         context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 }

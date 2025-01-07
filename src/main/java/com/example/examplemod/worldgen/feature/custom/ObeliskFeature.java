@@ -1,4 +1,4 @@
-package com.example.examplemod.worldgen.feature;
+package com.example.examplemod.worldgen.feature.custom;
 
 import com.example.examplemod.SWM;
 import com.mojang.serialization.Codec;
