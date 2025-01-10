@@ -14,6 +14,7 @@ import net.minecraftforge.api.distmarker.Dist;
 public class EventHandler {
     @Mod.EventBusSubscriber(value = Dist.DEDICATED_SERVER)
     public static class ServerEvents {
+
         @SubscribeEvent
         public void onServerStarting(ServerStartingEvent event) {
             SWM.LOGGER.info("HELLO from server starting");
@@ -26,5 +27,21 @@ public class EventHandler {
         public static void onClientSetup(FMLClientSetupEvent event) {
             BlockEntityRenderers.register(SWMBlockEntityType.ANIMATED_BLOCK_ENTITY.get(), AnimatedBlockRenderer::new);
         }
+
+        // @SubscribeEvent
+        // public static void onBlockClicked(BlockEvent.EntityPlaceEvent event) {
+        //     if (event.getWorld().isRemote()) {
+        //         return;
+        //     }
+
+        //     BlockPos pos = event.getPos();
+        //     BlockState state = event.getWorld().getBlockState(pos);
+
+        //     // Проверяем, что это заражённый кристалл
+        //     if (state.getBlock() == MyModBlocks.ZARAZHENNY_KRYSTAL) {
+        //         playAnimation(pos);
+        //     }
+        //     System.out.println("Работает");
+        // }
     }
 }

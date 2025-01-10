@@ -5,12 +5,10 @@ import com.example.examplemod.block.SWMBlocks;
 import com.example.examplemod.item.SWMCreativeModeTabs;
 import com.example.examplemod.item.SWMItems;
 import com.example.examplemod.particle.SWMParticleTypes;
-import com.example.examplemod.particle.custom.GlimmerParticle;
 import com.example.examplemod.worldgen.feature.SWMFeatures;
 import com.mojang.logging.LogUtils;
 
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;

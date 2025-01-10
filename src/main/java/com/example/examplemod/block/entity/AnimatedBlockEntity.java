@@ -26,7 +26,7 @@ public class AnimatedBlockEntity extends BlockEntity implements GeoBlockEntity {
     }
 
     private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
-        tAnimationState.getController().setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));
+        tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation", Animation.LoopType.LOOP));
         return PlayState.CONTINUE;
     }
 
