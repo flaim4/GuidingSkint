@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
-import com.example.examplemod.block.entity.AnimatedBlockEntity;
+import com.example.examplemod.block.entity.GuidingSkintBlockEntity;
 
 public class AnimatedBlock extends BaseEntityBlock {
     public AnimatedBlock(Properties properties) {
@@ -27,7 +27,7 @@ public class AnimatedBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState state) {
-        return new AnimatedBlockEntity(blockPos, state);
+        return new GuidingSkintBlockEntity(blockPos, state);
     }
 
     @Override

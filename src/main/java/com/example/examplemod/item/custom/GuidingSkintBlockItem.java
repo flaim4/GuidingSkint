@@ -5,22 +5,19 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
 import software.bernie.geckolib.util.RenderUtils;
 
 import java.util.function.Consumer;
 
 import com.example.examplemod.item.client.AnimatedBlockItemRenderer;
 
-public class AnimatedBlockItem extends BlockItem implements GeoItem {
+public class GuidingSkintBlockItem extends BlockItem implements GeoItem {
     private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 
-    public AnimatedBlockItem(Block block, Properties properties) {
+    public GuidingSkintBlockItem(Block block, Properties properties) {
         super(block, properties);
         SingletonGeoAnimatable.registerSyncedAnimatable(this);
     }
@@ -42,12 +39,6 @@ public class AnimatedBlockItem extends BlockItem implements GeoItem {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
-    }
-
-    private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
-        tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation", Animation.LoopType.LOOP));
-        return PlayState.CONTINUE;
     }
 
     @Override

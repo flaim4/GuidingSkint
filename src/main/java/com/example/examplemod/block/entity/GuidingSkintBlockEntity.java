@@ -13,12 +13,12 @@ import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.RenderUtils;
 
-public class AnimatedBlockEntity extends BlockEntity implements GeoBlockEntity {
+public class GuidingSkintBlockEntity extends BlockEntity implements GeoBlockEntity {
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private boolean hasPlayedAnimation = true;
 
-    public AnimatedBlockEntity(BlockPos pos, BlockState state) {
-        super(SWMBlockEntityType.ANIMATED_BLOCK_ENTITY.get(), pos, state);
+    public GuidingSkintBlockEntity(BlockPos pos, BlockState state) {
+        super(SWMBlockEntityType.GUIDING_SKINT_BLOCK_ENTITY.get(), pos, state);
     }
 
     @Override
@@ -27,12 +27,10 @@ public class AnimatedBlockEntity extends BlockEntity implements GeoBlockEntity {
     }
 
     private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
-        if (hasPlayedAnimation) {
-            return PlayState.STOP;
-        }
         tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation", Animation.LoopType.PLAY_ONCE));
         return PlayState.CONTINUE;
     }
+
 
     public void playAnimation() {
         if (hasPlayedAnimation) {

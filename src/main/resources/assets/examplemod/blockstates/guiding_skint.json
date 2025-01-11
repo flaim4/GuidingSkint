@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "1": { "model": "examplemod:block/guiding_skint" },
+    "2": { "model": "examplemod:block/infected_skint" }
+  }
+}

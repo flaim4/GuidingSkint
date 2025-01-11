@@ -3,11 +3,10 @@ package com.example.examplemod;
 import com.example.examplemod.block.SWMBlockEntityType;
 import com.example.examplemod.block.SWMBlocks;
 import com.example.examplemod.block.custom.AnimatedBlockRenderer;
-import com.example.examplemod.block.entity.AnimatedBlockEntity;
+import com.example.examplemod.block.entity.GuidingSkintBlockEntity;
 
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
@@ -23,7 +22,7 @@ public class EventHandler {
     public static class ClientEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            BlockEntityRenderers.register(SWMBlockEntityType.ANIMATED_BLOCK_ENTITY.get(), AnimatedBlockRenderer::new);
+            BlockEntityRenderers.register(SWMBlockEntityType.GUIDING_SKINT_BLOCK_ENTITY.get(), AnimatedBlockRenderer::new);
         }
     }
 
@@ -35,11 +34,11 @@ public class EventHandler {
             if (event.getEntity().level().isClientSide()) {
                 BlockPos pos = event.getPos();
                 BlockState blockState = event.getLevel().getBlockState(pos);
-                Block guidingBlock = SWMBlocks.ANIMATED_BLOCK.get();
+                Block guidingBlock = SWMBlocks.GUIDING_SKINT_BLOCK.get();
 
                 if (blockState.getBlock() == guidingBlock) {
-                    if (event.getLevel().getBlockEntity(pos) instanceof AnimatedBlockEntity animatedBlockEntity) {
-                        animatedBlockEntity.playAnimation(); // Запускаем анимацию
+                    if (event.getLevel().getBlockEntity(pos) instanceof GuidingSkintBlockEntity animatedBlockEntity) {
+                        animatedBlockEntity.playAnimation();
                     }
                 }
             }

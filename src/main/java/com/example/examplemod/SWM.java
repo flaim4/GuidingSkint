@@ -27,7 +27,8 @@ public class SWM {
     public static final Random RANDOM = new Random();
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    public SWM(FMLJavaModLoadingContext context) {
+    public SWM() {
+        FMLJavaModLoadingContext context =  FMLJavaModLoadingContext.get();
         GeckoLib.initialize();
         DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> SWMClient::init);
         IEventBus modEventBus = context.getModEventBus();
@@ -37,7 +38,6 @@ public class SWM {
         SWMFeatures.init(modEventBus);
         SWMCreativeModeTabs.init(modEventBus);
         SWMParticleTypes.init(modEventBus);
-        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
 }
