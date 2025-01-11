@@ -9,6 +9,7 @@ import com.example.examplemod.worldgen.feature.SWMFeatures;
 import com.mojang.logging.LogUtils;
 
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -32,7 +33,7 @@ public class SWM {
         IEventBus modEventBus = context.getModEventBus();
         SWMBlocks.init(modEventBus);
         SWMBlockEntityType.init(modEventBus);
-        SWMItems.init(modEventBus);
+        SWMItems.init(modEventBus);         
         SWMFeatures.init(modEventBus);
         SWMCreativeModeTabs.init(modEventBus);
         SWMParticleTypes.init(modEventBus);
