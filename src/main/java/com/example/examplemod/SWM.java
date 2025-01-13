@@ -34,7 +34,7 @@ public class SWM {
         IEventBus modEventBus = context.getModEventBus();
         SWMBlocks.init(modEventBus);
         SWMBlockEntityType.init(modEventBus);
-        SWMItems.init(modEventBus);         
+        SWMItems.init(modEventBus);
         SWMFeatures.init(modEventBus);
         SWMCreativeModeTabs.init(modEventBus);
         SWMParticleTypes.init(modEventBus);

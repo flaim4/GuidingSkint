@@ -23,14 +23,38 @@ public class GuidingSkintBlockEntity extends BlockEntity implements GeoBlockEnti
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
+//        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
     private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
-        tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation", Animation.LoopType.PLAY_ONCE));
+//        tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation", Animation.LoopType.PLAY_ONCE));
         return PlayState.CONTINUE;
     }
 
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        if (level != null && level.isClientSide) {
+            requestModelDataUpdate();
+        }
+    }
+
+    @Override
+    public void setChanged() {
+        super.setChanged();
+        if (level != null && level.isClientSide) {
+            requestModelDataUpdate();
+        }
+    }
+
+    @Override
+    public void onDataPacket(net.minecraft.network.Connection connection, net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket packet) {
+        super.onDataPacket(connection, packet);
+
+        if (level != null && level.isClientSide) {
+            requestModelDataUpdate();
+        }
+    }
 
     public void playAnimation() {
         if (hasPlayedAnimation) {
