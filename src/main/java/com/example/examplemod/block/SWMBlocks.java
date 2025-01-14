@@ -16,7 +16,13 @@ public class SWMBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SWM.MODID);
 
     public static final RegistryObject<Block> GUIDING_SKINT_BLOCK = BLOCKS.register("guiding_skint_block",
-            () -> new GuidingSkintBlock(BlockBehaviour.Properties.copy(Blocks.STONE).sound(SoundType.STONE).strength(1f).noOcclusion().lightLevel(state -> 12).strength(6000f).noCollission()));
+            () -> new GuidingSkintBlock(BlockBehaviour.Properties.copy(Blocks.STONE)
+                    .sound(SoundType.STONE)
+                    .strength(1f)
+                    .noOcclusion()
+                    .lightLevel(state -> 12)
+                    .strength(6000f)
+                    .noCollission()));
 
     public static void init(IEventBus eventBus) {
         BLOCKS.register(eventBus);
