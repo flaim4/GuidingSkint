@@ -11,9 +11,11 @@ import com.mojang.logging.LogUtils;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import software.bernie.geckolib.GeckoLib;
 
@@ -28,10 +30,9 @@ public class SWM {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public SWM() {
-        FMLJavaModLoadingContext context =  FMLJavaModLoadingContext.get();
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         GeckoLib.initialize();
         DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> SWMClient::init);
-        IEventBus modEventBus = context.getModEventBus();
         SWMBlocks.init(modEventBus);
         SWMBlockEntityType.init(modEventBus);
         SWMItems.init(modEventBus);

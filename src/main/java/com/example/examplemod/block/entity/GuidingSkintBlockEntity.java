@@ -32,16 +32,16 @@ public class GuidingSkintBlockEntity extends BlockEntity implements GeoBlockEnti
     }
 
     @Override
-    public void onLoad() {
-        super.onLoad();
+    public void setChanged() {
+        super.setChanged();
         if (level != null && level.isClientSide) {
             requestModelDataUpdate();
         }
     }
 
     @Override
-    public void setChanged() {
-        super.setChanged();
+    public void onLoad() {
+        super.onLoad();
         if (level != null && level.isClientSide) {
             requestModelDataUpdate();
         }
