@@ -1,17 +1,22 @@
 package com.example.examplemod.block.custom;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -22,6 +27,8 @@ import com.example.examplemod.block.entity.GuidingSkintBlockEntity;
 public class GuidingSkintBlock extends BaseEntityBlock {
 
     public static final BooleanProperty ACTION = BooleanProperty.create("action");
+    public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
+
 
     VoxelShape guidingSkintBox = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 28.0D, 14.0D);
     VoxelShape infectedSkintBox = Block.box(2.0D, 0D, 2.0D, 14.0D, 8D, 14.0D);
@@ -34,8 +41,12 @@ public class GuidingSkintBlock extends BaseEntityBlock {
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (!level.isClientSide) {
-            boolean currentAction = blockState.getValue(ACTION);
-            BlockState newState = blockState.setValue(ACTION, !currentAction);
+            Direction currentFacing = blockState.getValue(FACING);
+            Direction newFacing = currentFacing.getClockWise();
+
+            BlockState newState = blockState.setValue(FACING, newFacing);
+
+            newState = newState.setValue(ACTION, !blockState.getValue(ACTION));
 
             level.setBlock(blockPos, newState, Block.UPDATE_ALL);
             level.sendBlockUpdated(blockPos, blockState, newState, Block.UPDATE_ALL);
@@ -56,8 +67,29 @@ public class GuidingSkintBlock extends BaseEntityBlock {
     }
 
     @Override
+    public BlockState updateShape(BlockState p_152036_, Direction p_152037_, BlockState p_152038_, LevelAccessor p_152039_, BlockPos p_152040_, BlockPos p_152041_) {
+        return p_152037_ == p_152036_.getValue(FACING).getOpposite() && !p_152036_.canSurvive(p_152039_, p_152040_) ? Blocks.AIR.defaultBlockState() : super.updateShape(p_152036_, p_152037_, p_152038_, p_152039_, p_152040_, p_152041_);
+    }
+
+    @Override
+    public BlockState mirror(BlockState p_152030_, Mirror p_152031_) {
+        return p_152030_.rotate(p_152031_.getRotation(p_152030_.getValue(FACING)));
+    }
+
+    @Override
+    public BlockState rotate(BlockState state, Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
+    }
+
+    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(ACTION);
+        builder.add(ACTION, FACING);
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        Direction facing = context.getHorizontalDirection();
+        return this.defaultBlockState().setValue(FACING, facing);
     }
 
     @Nullable
