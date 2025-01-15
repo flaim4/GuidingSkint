@@ -11,8 +11,8 @@ import net.minecraftforge.registries.RegistryObject;
 public class SWMCreativeModeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB, SWM.MODID);
 
-    public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
-            .withTabsBefore(CreativeModeTabs.COMBAT).icon(() -> SWMItems.ANIMATED_BLOCK_ITEM.get().getDefaultInstance()).displayItems((parameters, output) -> {
+    public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("guidingskint_tab", () -> CreativeModeTab.builder()
+            .withTabsBefore(CreativeModeTabs.BUILDING_BLOCKS).icon(() -> SWMItems.ANIMATED_BLOCK_ITEM.get().getDefaultInstance()).displayItems((parameters, output) -> {
                 output.accept(SWMItems.ANIMATED_BLOCK_ITEM.get());
             }).build());
 

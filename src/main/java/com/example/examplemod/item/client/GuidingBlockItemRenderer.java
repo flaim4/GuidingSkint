@@ -4,8 +4,8 @@ import com.example.examplemod.item.custom.GuidingSkintBlockItem;
 
 import software.bernie.geckolib.renderer.GeoItemRenderer;
 
-public class AnimatedBlockItemRenderer extends GeoItemRenderer<GuidingSkintBlockItem> {
-    public AnimatedBlockItemRenderer() {
-        super(new AnimatedBlockItemModel());
+public class GuidingBlockItemRenderer extends GeoItemRenderer<GuidingSkintBlockItem> {
+    public GuidingBlockItemRenderer() {
+        super(new GuidingSkintBlockItemModel());
     }   
 }

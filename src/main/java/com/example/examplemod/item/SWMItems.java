@@ -13,7 +13,7 @@ import net.minecraftforge.registries.RegistryObject;
 public class SWMItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SWM.MODID);
 
-    public static final RegistryObject<Item> ANIMATED_BLOCK_ITEM = ITEMS.register("animated_block",
+    public static final RegistryObject<Item> ANIMATED_BLOCK_ITEM = ITEMS.register("guiding_skint",
         () -> new GuidingSkintBlockItem(SWMBlocks.GUIDING_SKINT_BLOCK.get(), new Item.Properties()));
 
     public static void init(IEventBus eventBus) {

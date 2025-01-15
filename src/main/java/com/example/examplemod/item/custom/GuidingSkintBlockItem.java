@@ -12,7 +12,7 @@ import software.bernie.geckolib.util.RenderUtils;
 
 import java.util.function.Consumer;
 
-import com.example.examplemod.item.client.AnimatedBlockItemRenderer;
+import com.example.examplemod.item.client.GuidingBlockItemRenderer;
 
 public class GuidingSkintBlockItem extends BlockItem implements GeoItem {
     private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
@@ -25,12 +25,12 @@ public class GuidingSkintBlockItem extends BlockItem implements GeoItem {
     @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         consumer.accept(new IClientItemExtensions() {
-            private AnimatedBlockItemRenderer renderer;
+            private GuidingBlockItemRenderer renderer;
 
             @Override
             public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                 if(this.renderer == null)
-                    this.renderer = new AnimatedBlockItemRenderer();
+                    this.renderer = new GuidingBlockItemRenderer();
 
                 return this.renderer;
             }
