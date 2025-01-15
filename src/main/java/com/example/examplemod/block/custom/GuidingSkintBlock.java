@@ -41,12 +41,8 @@ public class GuidingSkintBlock extends BaseEntityBlock {
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (!level.isClientSide) {
-            Direction currentFacing = blockState.getValue(FACING);
-            Direction newFacing = currentFacing.getClockWise();
-
-            BlockState newState = blockState.setValue(FACING, newFacing);
-
-            newState = newState.setValue(ACTION, !blockState.getValue(ACTION));
+            boolean currentAction = blockState.getValue(ACTION);
+            BlockState newState = blockState.setValue(ACTION, !currentAction);
 
             level.setBlock(blockPos, newState, Block.UPDATE_ALL);
             level.sendBlockUpdated(blockPos, blockState, newState, Block.UPDATE_ALL);
