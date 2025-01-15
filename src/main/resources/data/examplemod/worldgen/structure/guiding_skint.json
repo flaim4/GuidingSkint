@@ -1,0 +1,21 @@
+{
+    "type": "examplemod:guiding_skint",
+    "biomes": "#minecraft:is_overworld",
+    "step": "underground_structures",
+    "terrain_adaptation": "beard_thin",
+    "start_pool": "examplemod:guiding_skint",
+    "size": 1,
+    "start_height": {
+        "type": "minecraft:uniform",
+        "min_inclusive": {
+            "absolute": 60
+        },
+        "max_inclusive": {
+            "absolute": 100
+        }
+    },
+
+    "max_distance_from_center": 6,
+    "use_expansion_hack": false,
+    "spawn_overrides": {}
+}

@@ -1,6 +1,6 @@
 package com.example.examplemod.block.entity;
 
-import com.example.examplemod.block.SWMBlockEntityType;
+import com.example.examplemod.block.GSBlockEntityType;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -18,7 +18,7 @@ public class GuidingSkintBlockEntity extends BlockEntity implements GeoBlockEnti
     private boolean hasPlayedAnimation = true;
 
     public GuidingSkintBlockEntity(BlockPos pos, BlockState state) {
-        super(SWMBlockEntityType.GUIDING_SKINT_BLOCK_ENTITY.get(), pos, state);
+        super(GSBlockEntityType.GUIDING_SKINT_BLOCK_ENTITY.get(), pos, state);
     }
 
     @Override

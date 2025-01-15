@@ -16,9 +16,11 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,14 +30,14 @@ public class GuidingSkintBlock extends BaseEntityBlock {
 
     public static final BooleanProperty ACTION = BooleanProperty.create("action");
     public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
-
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     VoxelShape guidingSkintBox = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 28.0D, 14.0D);
     VoxelShape infectedSkintBox = Block.box(2.0D, 0D, 2.0D, 14.0D, 8D, 14.0D);
 
     public GuidingSkintBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(ACTION, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(ACTION, false).setValue(WATERLOGGED, false));
     }
 
     @Override
@@ -63,8 +65,20 @@ public class GuidingSkintBlock extends BaseEntityBlock {
     }
 
     @Override
-    public BlockState updateShape(BlockState p_152036_, Direction p_152037_, BlockState p_152038_, LevelAccessor p_152039_, BlockPos p_152040_, BlockPos p_152041_) {
-        return p_152037_ == p_152036_.getValue(FACING).getOpposite() && !p_152036_.canSurvive(p_152039_, p_152040_) ? Blocks.AIR.defaultBlockState() : super.updateShape(p_152036_, p_152037_, p_152038_, p_152039_, p_152040_, p_152041_);
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        return Shapes.empty();
+    }
+
+    @Override
+    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        if (state.getValue(WATERLOGGED)) {
+            return state;
+        }
+
+        if (scanForWater(level, pos)) {
+        }
+
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 
     @Override
@@ -79,13 +93,18 @@ public class GuidingSkintBlock extends BaseEntityBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(ACTION, FACING);
+        builder.add(ACTION, FACING, WATERLOGGED);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         Direction facing = context.getHorizontalDirection();
-        return this.defaultBlockState().setValue(FACING, facing);
+        FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
+
+        // Проверка на наличие воды в момент установки блока
+        return this.defaultBlockState()
+                .setValue(FACING, facing)
+                .setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
     }
 
     @Nullable
@@ -94,4 +113,15 @@ public class GuidingSkintBlock extends BaseEntityBlock {
         return new GuidingSkintBlockEntity(blockPos, state);
     }
 
+    protected boolean scanForWater(BlockGetter p_52135_, BlockPos p_52136_) {
+        BlockState state = p_52135_.getBlockState(p_52136_);
+        for(Direction direction : Direction.values()) {
+            FluidState fluidstate = p_52135_.getFluidState(p_52136_.relative(direction));
+            // Если соседний блок содержит воду, возвращаем true
+            if (fluidstate.getType() == Fluids.WATER) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

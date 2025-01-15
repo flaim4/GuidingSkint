@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "examplemod:guiding_skint",
+      "weight": 6
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 464662789,
+    "spacing": 3,
+    "separation": 1
+  }
+}

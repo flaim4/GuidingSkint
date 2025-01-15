@@ -1,6 +1,6 @@
 package com.example.examplemod.worldgen.feature.custom;
 
-import com.example.examplemod.SWM;
+import com.example.examplemod.GS;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
@@ -46,7 +46,7 @@ public class ObeliskFeature extends Feature<NoneFeatureConfiguration> {
                 BlockState blockStateAbove = level.getBlockState(pos.offset(x, 1, z));
                 BlockState blockState = level.getBlockState(pos.offset(x, 0, z));
                 BlockState blockStateBelow = level.getBlockState(pos.offset(x, -1, z));
-                if (!blockState.canBeReplaced() || blockState.is(Blocks.WATER) || !blockStateAbove.canBeReplaced() || !blockStateBelow.canOcclude() || blockStateBelow.canBeReplaced() || SWM.RANDOM.nextInt(100) > 60) return false;
+                if (!blockState.canBeReplaced() || blockState.is(Blocks.WATER) || !blockStateAbove.canBeReplaced() || !blockStateBelow.canOcclude() || blockStateBelow.canBeReplaced() || GS.RANDOM.nextInt(100) > 60) return false;
             }
         }
         return true;
