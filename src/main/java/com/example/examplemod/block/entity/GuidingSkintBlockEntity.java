@@ -15,7 +15,7 @@ import software.bernie.geckolib.util.RenderUtils;
 
 public class GuidingSkintBlockEntity extends BlockEntity implements GeoBlockEntity {
     private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
-    private boolean hasPlayedAnimation = true;
+    private static boolean hasPlayedAnimation = true;
 
     public GuidingSkintBlockEntity(BlockPos pos, BlockState state) {
         super(GSBlockEntityType.GUIDING_SKINT_BLOCK_ENTITY.get(), pos, state);
@@ -23,11 +23,14 @@ public class GuidingSkintBlockEntity extends BlockEntity implements GeoBlockEnti
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
-//        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
+        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
     private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
-//        tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation", Animation.LoopType.PLAY_ONCE));
+        if (hasPlayedAnimation) {
+            return PlayState.STOP;
+        }
+        tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.model.new", Animation.LoopType.PLAY_ONCE));
         return PlayState.CONTINUE;
     }
 
@@ -56,7 +59,7 @@ public class GuidingSkintBlockEntity extends BlockEntity implements GeoBlockEnti
         }
     }
 
-    public void playAnimation() {
+    public static void playAnimation() {
         if (hasPlayedAnimation) {
             hasPlayedAnimation = false;
         }

@@ -53,10 +53,13 @@ public class GuidingSkintBlock extends BaseEntityBlock {
             if (blockEntity instanceof GuidingSkintBlockEntity) {
                 ((GuidingSkintBlockEntity) blockEntity).playAnimation();
             }
+            return InteractionResult.SUCCESS;
+        } else {
+            GuidingSkintBlockEntity.playAnimation();
+            blockState.setValue(GuidingSkintBlock.ACTION, true);
 
             return InteractionResult.SUCCESS;
         }
-        return InteractionResult.PASS;
     }
 
     @Override
@@ -73,9 +76,6 @@ public class GuidingSkintBlock extends BaseEntityBlock {
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         if (state.getValue(WATERLOGGED)) {
             return state;
-        }
-
-        if (scanForWater(level, pos)) {
         }
 
         return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
@@ -101,27 +101,12 @@ public class GuidingSkintBlock extends BaseEntityBlock {
         Direction facing = context.getHorizontalDirection();
         FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
 
-        // Проверка на наличие воды в момент установки блока
-        return this.defaultBlockState()
-                .setValue(FACING, facing)
-                .setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
+        return this.defaultBlockState().setValue(FACING, facing);
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState state) {
         return new GuidingSkintBlockEntity(blockPos, state);
-    }
-
-    protected boolean scanForWater(BlockGetter p_52135_, BlockPos p_52136_) {
-        BlockState state = p_52135_.getBlockState(p_52136_);
-        for(Direction direction : Direction.values()) {
-            FluidState fluidstate = p_52135_.getFluidState(p_52136_.relative(direction));
-            // Если соседний блок содержит воду, возвращаем true
-            if (fluidstate.getType() == Fluids.WATER) {
-                return true;
-            }
-        }
-        return false;
     }
 }

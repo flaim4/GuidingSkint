@@ -26,28 +26,4 @@ public class EventHandler {
         }
     }
 
-    @Mod.EventBusSubscriber(modid = GS.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-    public static class CommonEvents {
-
-        @SubscribeEvent
-        public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-            if (event.getLevel().isClientSide()) {
-                return;
-            }
-
-            BlockPos pos = event.getPos();
-            BlockState blockState = event.getLevel().getBlockState(pos);
-            Block guidingBlock = GSBlocks.GUIDING_SKINT_BLOCK.get();
-
-            if (blockState.getBlock() == guidingBlock) {
-                boolean currentAction = blockState.getValue(GuidingSkintBlock.ACTION);
-                BlockState newState = blockState.setValue(GuidingSkintBlock.ACTION, !currentAction);
-
-                event.getLevel().setBlock(pos, newState, Block.UPDATE_ALL);
-                event.getLevel().sendBlockUpdated(pos, blockState, newState, Block.UPDATE_ALL);
-
-            }
-        }
-    }
-
 }
