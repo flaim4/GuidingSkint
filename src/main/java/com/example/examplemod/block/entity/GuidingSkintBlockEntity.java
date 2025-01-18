@@ -1,7 +1,7 @@
 package com.example.examplemod.block.entity;
 
 import com.example.examplemod.block.GSBlockEntityType;
-
+import com.example.examplemod.block.custom.GuidingSkintBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -26,44 +26,31 @@ public class GuidingSkintBlockEntity extends BlockEntity implements GeoBlockEnti
         controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
     }
 
-    private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
-        if (hasPlayedAnimation) {
-            return PlayState.STOP;
+    private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> animationState) {
+        BlockState state = getBlockState();
+        BlockState newState;
+
+        if (animationState.getController().getAnimationState() == AnimationController.State.RUNNING) {
+            return PlayState.CONTINUE;
         }
-        tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.model.new", Animation.LoopType.PLAY_ONCE));
+
+        if (state.getValue(GuidingSkintBlock.ACTION)) {
+            animationState.getController().setAnimation(RawAnimation.begin().then("animation2", Animation.LoopType.PLAY_ONCE));
+            newState = state.setValue(GuidingSkintBlock.ACTION, false);
+        } else {
+            animationState.getController().setAnimation(RawAnimation.begin().then("animation", Animation.LoopType.PLAY_ONCE));
+            newState = state.setValue(GuidingSkintBlock.ACTION, true);
+        }
+        level.setBlock(getBlockPos(), newState, getBlockState().getBlock().UPDATE_ALL);
+        level.sendBlockUpdated(getBlockPos(), getBlockState(), newState, getBlockState().getBlock().UPDATE_ALL);
         return PlayState.CONTINUE;
     }
 
-    @Override
-    public void setChanged() {
-        super.setChanged();
-        if (level != null && level.isClientSide) {
-            requestModelDataUpdate();
-        }
-    }
-
-    @Override
-    public void onLoad() {
-        super.onLoad();
-        if (level != null && level.isClientSide) {
-            requestModelDataUpdate();
-        }
-    }
-
-    @Override
-    public void onDataPacket(net.minecraft.network.Connection connection, net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket packet) {
-        super.onDataPacket(connection, packet);
-
-        if (level != null && level.isClientSide) {
-            requestModelDataUpdate();
-        }
-    }
 
     public static void playAnimation() {
-        if (hasPlayedAnimation) {
-            hasPlayedAnimation = false;
-        }
     }
+
+
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {

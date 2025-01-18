@@ -23,7 +23,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
-
 import com.example.examplemod.block.entity.GuidingSkintBlockEntity;
 
 public class GuidingSkintBlock extends BaseEntityBlock {
@@ -37,53 +36,48 @@ public class GuidingSkintBlock extends BaseEntityBlock {
 
     public GuidingSkintBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(ACTION, false).setValue(WATERLOGGED, false));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(ACTION, false)
+                .setValue(FACING, Direction.NORTH)
+                .setValue(WATERLOGGED, false));
     }
 
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (!level.isClientSide) {
-            boolean currentAction = blockState.getValue(ACTION);
-            BlockState newState = blockState.setValue(ACTION, !currentAction);
-
-            level.setBlock(blockPos, newState, Block.UPDATE_ALL);
-            level.sendBlockUpdated(blockPos, blockState, newState, Block.UPDATE_ALL);
-
             BlockEntity blockEntity = level.getBlockEntity(blockPos);
-            if (blockEntity instanceof GuidingSkintBlockEntity) {
-                ((GuidingSkintBlockEntity) blockEntity).playAnimation();
+            if (blockEntity instanceof GuidingSkintBlockEntity guidingSkintBlockEntity) {
+                guidingSkintBlockEntity.playAnimation();
             }
             return InteractionResult.SUCCESS;
         } else {
-            GuidingSkintBlockEntity.playAnimation();
-            blockState.setValue(GuidingSkintBlock.ACTION, true);
-
-            return InteractionResult.SUCCESS;
+            BlockEntity blockEntity = level.getBlockEntity(blockPos);
+            if (blockEntity instanceof GuidingSkintBlockEntity guidingSkintBlockEntity) {
+                guidingSkintBlockEntity.playAnimation();
+            }
         }
+        return InteractionResult.CONSUME;
     }
 
     @Override
-    public VoxelShape getShape(BlockState blockState, BlockGetter p_152022_, BlockPos p_152023_, CollisionContext p_152024_) {
+    public VoxelShape getShape(BlockState blockState, BlockGetter level, BlockPos pos, CollisionContext context) {
+        if (!(blockState.getBlock() instanceof GuidingSkintBlock)) {
+            return Shapes.empty();
+        }
         return blockState.getValue(ACTION) ? guidingSkintBox : infectedSkintBox;
-    }
-
-    @Override
-    public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-        return Shapes.empty();
     }
 
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         if (state.getValue(WATERLOGGED)) {
-            return state;
+            level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
-
         return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 
     @Override
-    public BlockState mirror(BlockState p_152030_, Mirror p_152031_) {
-        return p_152030_.rotate(p_152031_.getRotation(p_152030_.getValue(FACING)));
+    public BlockState mirror(BlockState state, Mirror mirror) {
+        return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
 
     @Override
@@ -101,12 +95,14 @@ public class GuidingSkintBlock extends BaseEntityBlock {
         Direction facing = context.getHorizontalDirection();
         FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
 
-        return this.defaultBlockState().setValue(FACING, facing);
+        return this.defaultBlockState()
+                .setValue(FACING, facing)
+                .setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
     }
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState state) {
-        return new GuidingSkintBlockEntity(blockPos, state);
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new GuidingSkintBlockEntity(pos, state);
     }
 }

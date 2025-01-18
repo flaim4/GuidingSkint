@@ -4,8 +4,11 @@ import com.example.examplemod.GS;
 import com.example.examplemod.block.custom.GuidingSkintBlock;
 import com.example.examplemod.block.entity.GuidingSkintBlockEntity;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import software.bernie.geckolib.model.GeoModel;
 
 public class GuidingSkintBlockModel extends GeoModel<GuidingSkintBlockEntity> {
@@ -21,6 +24,7 @@ public class GuidingSkintBlockModel extends GeoModel<GuidingSkintBlockEntity> {
             return new ResourceLocation(GS.MODID, "geo/infected_skint.geo.json");
         }
     }
+
 
     @Override
     public ResourceLocation getTextureResource(GuidingSkintBlockEntity animatable) {

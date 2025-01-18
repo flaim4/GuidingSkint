@@ -13,7 +13,12 @@
 			"bones": [
 				{
 					"name": "InfectedSkint",
-					"pivot": [2.1, 0, 0],
+					"pivot": [2.1, 0, 0]
+				},
+				{
+					"name": "bone",
+					"parent": "InfectedSkint",
+					"pivot": [7.5, -0.6, 3],
 					"cubes": [
 						{
 							"origin": [5.1, -0.6, 0.6],
@@ -28,7 +33,14 @@
 								"up": {"uv": [56, 19], "uv_size": [8, 8]},
 								"down": {"uv": [48, 42], "uv_size": [8, -8]}
 							}
-						},
+						}
+					]
+				},
+				{
+					"name": "bone11",
+					"parent": "InfectedSkint",
+					"pivot": [7.5, -0.3, -1.8],
+					"cubes": [
 						{
 							"origin": [5.7, -0.3, -3.6],
 							"size": [3.6, 5.4, 3.6],
@@ -42,7 +54,14 @@
 								"up": {"uv": [50, 19], "uv_size": [6, 6]},
 								"down": {"uv": [44, 25], "uv_size": [6, -6]}
 							}
-						},
+						}
+					]
+				},
+				{
+					"name": "bone12",
+					"parent": "InfectedSkint",
+					"pivot": [4.7, 0, 0.4],
+					"cubes": [
 						{
 							"origin": [3.5, 0, -0.8],
 							"size": [2.4, 5.4, 2.4],
@@ -56,7 +75,14 @@
 								"up": {"uv": [13, 24], "uv_size": [4, 4]},
 								"down": {"uv": [17, 28], "uv_size": [4, -4]}
 							}
-						},
+						}
+					]
+				},
+				{
+					"name": "bone13",
+					"parent": "InfectedSkint",
+					"pivot": [7.5, 0, -5.4],
+					"cubes": [
 						{
 							"origin": [6.9, -0.3, -6],
 							"size": [1.2, 2.4, 1.2],
@@ -70,7 +96,14 @@
 								"up": {"uv": [15, 18], "uv_size": [2, 2]},
 								"down": {"uv": [17, 20], "uv_size": [2, -2]}
 							}
-						},
+						}
+					]
+				},
+				{
+					"name": "bone14",
+					"parent": "InfectedSkint",
+					"pivot": [2.6, 0, -7.3],
+					"cubes": [
 						{
 							"origin": [1.98623, -0.14151, -8.14986],
 							"size": [4.2, 3, 3.6],
@@ -84,7 +117,14 @@
 								"up": {"uv": [6, 38], "uv_size": [7, 6]},
 								"down": {"uv": [13, 44], "uv_size": [7, -6]}
 							}
-						},
+						}
+					]
+				},
+				{
+					"name": "bone15",
+					"parent": "InfectedSkint",
+					"pivot": [1.5, 0, -6.8],
+					"cubes": [
 						{
 							"origin": [-2.1, 0, -9.8],
 							"size": [4.2, 5.4, 3.6],
@@ -98,7 +138,14 @@
 								"up": {"uv": [31, 49], "uv_size": [7, 6]},
 								"down": {"uv": [38, 55], "uv_size": [7, -6]}
 							}
-						},
+						}
+					]
+				},
+				{
+					"name": "bone16",
+					"parent": "InfectedSkint",
+					"pivot": [-5.7, -0.3, -5.4],
+					"cubes": [
 						{
 							"origin": [-7.78995, -0.5425, -7.53002],
 							"size": [4.2, 7.2, 4.2],
@@ -112,7 +159,14 @@
 								"up": {"uv": [57, 41], "uv_size": [7, 7]},
 								"down": {"uv": [50, 49], "uv_size": [7, -7]}
 							}
-						},
+						}
+					]
+				},
+				{
+					"name": "bone17",
+					"parent": "InfectedSkint",
+					"pivot": [-3.78, -0.42, -2.34],
+					"cubes": [
 						{
 							"origin": [-5.58, -0.42, -2.94],
 							"size": [2.4, 1.8, 1.8],
@@ -126,7 +180,14 @@
 								"up": {"uv": [20, 49], "uv_size": [4, 3]},
 								"down": {"uv": [24, 52], "uv_size": [4, -3]}
 							}
-						},
+						}
+					]
+				},
+				{
+					"name": "bone18",
+					"parent": "InfectedSkint",
+					"pivot": [-0.9, -0.3, -4.1],
+					"cubes": [
 						{
 							"origin": [-2.1, -0.3, -4.7],
 							"size": [1.8, 1.8, 1.8],
@@ -140,7 +201,14 @@
 								"up": {"uv": [18, 61], "uv_size": [3, 3]},
 								"down": {"uv": [18, 61], "uv_size": [3, -3]}
 							}
-						},
+						}
+					]
+				},
+				{
+					"name": "bone19",
+					"parent": "InfectedSkint",
+					"pivot": [-4.2, -0.24, 1.8],
+					"cubes": [
 						{
 							"origin": [-6, -0.24, 1.2],
 							"size": [2.4, 3.6, 2.4],
@@ -154,7 +222,14 @@
 								"up": {"uv": [26, 17], "uv_size": [4, 4]},
 								"down": {"uv": [30, 21], "uv_size": [4, -4]}
 							}
-						},
+						}
+					]
+				},
+				{
+					"name": "bone20",
+					"parent": "InfectedSkint",
+					"pivot": [-9.9, 0, 0.6],
+					"cubes": [
 						{
 							"origin": [-9.9, 0, -1.5],
 							"size": [3, 7.2, 4.2],
@@ -168,7 +243,14 @@
 								"up": {"uv": [12, 57], "uv_size": [5, 7]},
 								"down": {"uv": [12, 57], "uv_size": [5, -7]}
 							}
-						},
+						}
+					]
+				},
+				{
+					"name": "bone21",
+					"parent": "InfectedSkint",
+					"pivot": [-2.7, -0.6, 7.7],
+					"cubes": [
 						{
 							"origin": [-6.3, -0.6, 4.7],
 							"size": [4.2, 5.4, 3.6],
@@ -182,7 +264,14 @@
 								"up": {"uv": [31, 55], "uv_size": [7, -6]},
 								"down": {"uv": [38, 55], "uv_size": [7, -6]}
 							}
-						},
+						}
+					]
+				},
+				{
+					"name": "bone22",
+					"parent": "InfectedSkint",
+					"pivot": [1.5, -0.3, 7.8],
+					"cubes": [
 						{
 							"origin": [-0.3, -0.3, 6],
 							"size": [3.6, 5.4, 3.6],
@@ -196,7 +285,14 @@
 								"up": {"uv": [51, 49], "uv_size": [6, 6]},
 								"down": {"uv": [45, 55], "uv_size": [6, -6]}
 							}
-						},
+						}
+					]
+				},
+				{
+					"name": "bone23",
+					"parent": "InfectedSkint",
+					"pivot": [4.8, -0.24, 6.6],
+					"cubes": [
 						{
 							"origin": [3, -0.24, 6],
 							"size": [2.4, 3.6, 2.4],
