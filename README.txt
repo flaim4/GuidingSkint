@@ -1,1 +1,1 @@
-<img src="https://web.telegram.org/05f532b7-a8c9-48d9-aed0-a174bc495b30">
+<img src="https://cdn.discordapp.com/attachments/1082787483772801025/1329232183117873182/2025-01-16_02.31.42.png?ex=678e34b0&is=678ce330&hm=940d294fef0e1c7a2a584be0b43be1e5d4b60efccfc13d340f72c58278ca1c0f&">
