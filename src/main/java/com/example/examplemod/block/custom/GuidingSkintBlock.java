@@ -46,33 +46,23 @@ public class GuidingSkintBlock extends BaseEntityBlock {
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (!level.isClientSide) {
-            BlockEntity blockEntity = level.getBlockEntity(blockPos);
-            if (blockEntity instanceof GuidingSkintBlockEntity guidingSkintBlockEntity) {
-                guidingSkintBlockEntity.playAnimation();
-            }
+            ((GuidingSkintBlockEntity) level.getBlockEntity(blockPos)).playAnimation();
             return InteractionResult.SUCCESS;
         } else {
-            BlockEntity blockEntity = level.getBlockEntity(blockPos);
-            if (blockEntity instanceof GuidingSkintBlockEntity guidingSkintBlockEntity) {
-                guidingSkintBlockEntity.playAnimation();
-            }
+            ((GuidingSkintBlockEntity) level.getBlockEntity(blockPos)).playAnimation();
         }
         return InteractionResult.CONSUME;
     }
 
     @Override
     public VoxelShape getShape(BlockState blockState, BlockGetter level, BlockPos pos, CollisionContext context) {
-        if (!(blockState.getBlock() instanceof GuidingSkintBlock)) {
-            return Shapes.empty();
-        }
+        if (!(blockState.getBlock() instanceof GuidingSkintBlock)) return Shapes.empty();
         return blockState.getValue(ACTION) ? guidingSkintBox : infectedSkintBox;
     }
 
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
-        if (state.getValue(WATERLOGGED)) {
-            level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
-        }
+        if (state.getValue(WATERLOGGED)) level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 
@@ -93,12 +83,7 @@ public class GuidingSkintBlock extends BaseEntityBlock {
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        Direction facing = context.getHorizontalDirection();
-        FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
-
-        return this.defaultBlockState()
-                .setValue(FACING, facing)
-                .setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
+        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection()).setValue(WATERLOGGED, context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER);
     }
 
     @Nullable
