@@ -1,5 +1,6 @@
 package com.example.examplemod;
 
+import com.example.examplemod.network.PacketHandler;
 import com.example.examplemod.particle.GSParticleTypes;
 import com.example.examplemod.particle.custom.GlimmerParticle;
 

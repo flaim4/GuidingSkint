@@ -1,7 +1,7 @@
 package com.example.examplemod.block.custom;
 
+import com.example.examplemod.network.ClientUpdatePropertyPacket;
 import com.example.examplemod.network.PacketHandler;
-import com.example.examplemod.network.UpdatePropertyS2CPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -48,7 +48,7 @@ public class GuidingSkintBlock extends BaseEntityBlock {
     @Override
     public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (!level.isClientSide) {
-            PacketHandler.sendToAllClients(new UpdatePropertyS2CPacket(blockPos));
+            PacketHandler.sendToAllClients(new ClientUpdatePropertyPacket(blockPos));
             level.setBlockAndUpdate(blockPos, level.getBlockState(blockPos).setValue(GuidingSkintBlock.ACTION, true));
             return InteractionResult.SUCCESS;
         }

@@ -14,6 +14,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import software.bernie.geckolib.GeckoLib;
 
 import java.util.Random;
@@ -29,7 +30,6 @@ public class GS {
     public GS() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         GeckoLib.initialize();
-        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> GSClient::init);
         GSBlocks.init(modEventBus);
         GSBlockEntityType.init(modEventBus);
         GSItems.init(modEventBus);
@@ -37,6 +37,11 @@ public class GS {
         GSCreativeModeTabs.init(modEventBus);
         GSParticleTypes.init(modEventBus);
         PacketHandler.register();
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> GSClient::init);
+        }
+
+
     }
 
 }

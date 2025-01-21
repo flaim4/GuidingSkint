@@ -3,7 +3,6 @@ package com.example.examplemod.block.entity;
 import com.example.examplemod.block.GSBlockEntityType;
 import com.example.examplemod.block.custom.GuidingSkintBlock;
 import com.example.examplemod.network.PacketHandler;
-import com.example.examplemod.network.UpdatePropertyS2CPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.Block;

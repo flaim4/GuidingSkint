@@ -1,8 +1,6 @@
 package com.example.examplemod.network;
 
 import com.example.examplemod.GS;
-import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;
@@ -18,10 +16,16 @@ public class PacketHandler {
     );
 
     public static void register() {
-        INSTANCE.messageBuilder(UpdatePropertyS2CPacket.class, 0, NetworkDirection.PLAY_TO_CLIENT)
-                .encoder(UpdatePropertyS2CPacket::encode)
-                .decoder(UpdatePropertyS2CPacket::new)
-                .consumerMainThread(UpdatePropertyS2CPacket::handle)
+        INSTANCE.messageBuilder(ServerUpdatePropertyPacket.class, 0, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(ServerUpdatePropertyPacket::encode)
+                .decoder(ServerUpdatePropertyPacket::new)
+                .consumerMainThread(ServerUpdatePropertyPacket::handle)
+                .add();
+
+        INSTANCE.messageBuilder(ClientUpdatePropertyPacket.class, 1, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(ClientUpdatePropertyPacket::encode)
+                .decoder(ClientUpdatePropertyPacket::new)
+                .consumerMainThread(ClientUpdatePropertyPacket::handle)
                 .add();
     }
 
@@ -30,7 +34,6 @@ public class PacketHandler {
     }
 
     public static void sendToAllClients(Object msg) {
-        Minecraft.getInstance().getChatListener().handleSystemMessage(Component.literal("ЕБАТЬ"), false);
         INSTANCE.send(PacketDistributor.ALL.noArg(), msg);
     }
 }
