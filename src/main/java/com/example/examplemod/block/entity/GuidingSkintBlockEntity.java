@@ -31,22 +31,13 @@ public class GuidingSkintBlockEntity extends BlockEntity implements GeoBlockEnti
 
     private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> animationState) {
         BlockState state = getBlockState();
+        if (hasPlayedAnimation) return PlayState.STOP;
 
-        if (hasPlayedAnimation) {
-            return PlayState.STOP;
-        }
-
-        if (animationState.getController().getAnimationState() == AnimationController.State.RUNNING) {
-            return PlayState.CONTINUE;
-        }
+        if (animationState.getController().getAnimationState() == AnimationController.State.RUNNING) return PlayState.CONTINUE;
 
         if (!state.getValue(GuidingSkintBlock.ACTION)) {
             animationState.getController().setAnimation(RawAnimation.begin().then("animation2", Animation.LoopType.PLAY_ONCE));
-            level.setBlock(getBlockPos(), state.setValue(GuidingSkintBlock.ACTION, true), Block.UPDATE_ALL);
-            level.sendBlockUpdated(getBlockPos(), getBlockState(), state.setValue(GuidingSkintBlock.ACTION, true), Block.UPDATE_ALL);
-        } else {
-            animationState.getController().setAnimation(RawAnimation.begin().then("animation", Animation.LoopType.PLAY_ONCE));
-        }
+        } else animationState.getController().setAnimation(RawAnimation.begin().then("animation", Animation.LoopType.PLAY_ONCE));
 
 
         return PlayState.CONTINUE;
@@ -70,11 +61,13 @@ public class GuidingSkintBlockEntity extends BlockEntity implements GeoBlockEnti
     public void load(CompoundTag tag) {
         super.load(tag);
         this.hasPlayedAnimation = tag.getBoolean("HasPlayedAnimation");
+//        getBlockState().setValue(GuidingSkintBlock.ACTION, tag.getBoolean("Action"));
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         tag.putBoolean("HasPlayedAnimation", this.hasPlayedAnimation);
+//        tag.putBoolean("Action", getBlockState().getValue(GuidingSkintBlock.ACTION));
     }
 }

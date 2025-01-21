@@ -18,7 +18,6 @@ public class GuidingSkintBlockModel extends GeoModel<GuidingSkintBlockEntity> {
         return new ResourceLocation(GS.MODID,  animatable.getBlockState().getValue(GuidingSkintBlock.ACTION) ? "geo/guiding_skint.geo.json" : "geo/infected_skint.geo.json");
     }
 
-
     @Override
     public ResourceLocation getTextureResource(GuidingSkintBlockEntity animatable) {
         return new ResourceLocation(GS.MODID, "textures/block/guiding_skint.png");

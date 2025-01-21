@@ -4,6 +4,7 @@ import com.example.examplemod.block.GSBlocks;
 import com.example.examplemod.block.GSBlockEntityType;
 import com.example.examplemod.item.GSCreativeModeTabs;
 import com.example.examplemod.item.GSItems;
+import com.example.examplemod.network.PacketHandler;
 import com.example.examplemod.particle.GSParticleTypes;
 import com.example.examplemod.worldgen.structure.GSStructures;
 import com.mojang.logging.LogUtils;
@@ -35,6 +36,7 @@ public class GS {
         GSStructures.init(modEventBus);
         GSCreativeModeTabs.init(modEventBus);
         GSParticleTypes.init(modEventBus);
+        PacketHandler.register();
     }
 
 }
