@@ -1,0 +1,38 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.infected": {
+			"loop": "hold_on_last_frame",
+			"bones": {
+				"PurifiedSkint": {
+					"scale": 0
+				}
+			}
+		},
+		"animation.purified": {
+			"loop": "hold_on_last_frame",
+			"bones": {
+				"InfectedSkint": {
+					"scale": 0
+				}
+			}
+		},
+		"animation.transformation": {
+			"animation_length": 2,
+			"bones": {
+				"PurifiedSkint": {
+					"position": {
+						"0.0": [0, -30, 0],
+						"2.0": [0, 0, 0]
+					}
+				},
+				"InfectedSkint": {
+					"position": {
+						"0.0": [0, 0, 0],
+						"2.0": [0, -10, 0]
+					}
+				}
+			}
+		}
+	}
+}
