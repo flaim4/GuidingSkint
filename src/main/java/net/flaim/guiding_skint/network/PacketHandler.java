@@ -21,7 +21,7 @@ public class PacketHandler {
     );
 
     public static void register() {
-        INSTANCE.messageBuilder(BlockStartAnimationS2C.class, 0, NetworkDirection.PLAY_TO_SERVER)
+        INSTANCE.messageBuilder(BlockStartAnimationS2C.class, 0, NetworkDirection.PLAY_TO_CLIENT)
                 .encoder(BlockStartAnimationS2C::encode)
                 .decoder(BlockStartAnimationS2C::new)
                 .consumerMainThread(BlockStartAnimationS2C::handle)

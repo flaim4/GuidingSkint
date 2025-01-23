@@ -41,7 +41,7 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
                 .isRedstoneConductor(Registries::NEVER)
                 .noParticlesOnBreak()
                 .sound(SoundType.AMETHYST)
-                .lightLevel((state) -> 15)
+                .lightLevel((state) -> 12)
                 .noOcclusion()
         );
 
@@ -56,7 +56,7 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (state.getValue(INFECTED)) {
+        if (state.getValue(INFECTED) && !level.isClientSide()) {
             level.setBlockAndUpdate(pos, state.setValue(INFECTED, false));
             PacketHandler.sendToAll(new BlockStartAnimationS2C(pos));
             return InteractionResult.SUCCESS;
