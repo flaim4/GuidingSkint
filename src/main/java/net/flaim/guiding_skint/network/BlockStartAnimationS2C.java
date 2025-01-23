@@ -5,6 +5,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -26,11 +29,16 @@ public class BlockStartAnimationS2C {
 
     public void handle(Supplier<NetworkEvent.Context> context) {
         context.get().enqueueWork(() -> {
-            Level level = Minecraft.getInstance().level;
-            if (level != null && level.getBlockEntity(pos) instanceof GuidingSkintBlockEntity blockEntity) {
-                blockEntity.DEPLOY_ANIM = GuidingSkintBlockEntity.TRANSFORMATION_ANIM;
-            }
+            handleClient();
         });
         context.get().setPacketHandled(true);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void handleClient() {
+        Level level = Minecraft.getInstance().level;
+        if (level != null && level.getBlockEntity(pos) instanceof GuidingSkintBlockEntity blockEntity) {
+            blockEntity.DEPLOY_ANIM = GuidingSkintBlockEntity.TRANSFORMATION_ANIM;
+        }
     }
 }

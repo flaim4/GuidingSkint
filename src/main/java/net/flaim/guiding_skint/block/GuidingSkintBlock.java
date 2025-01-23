@@ -106,7 +106,6 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
     @Override
     protected void spawnDestroyParticles(Level world, Player player, BlockPos pos, BlockState state) {
         if (!world.isClientSide()) return;
-        // player.sendSystemMessage(Component.literal("ХУЙ"));
         world.levelEvent(player, 2001, pos, getId(state));
     }
 }

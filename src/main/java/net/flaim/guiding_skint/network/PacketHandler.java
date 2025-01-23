@@ -31,5 +31,4 @@ public class PacketHandler {
     public static void sendToAll(Object msg) {
         INSTANCE.send(PacketDistributor.ALL.noArg(), msg);
     }
-
 }
