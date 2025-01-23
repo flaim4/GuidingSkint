@@ -46,6 +46,5 @@ public class Registries {
         ITEMS.register(modEventBus);
         BLOCK_ENTITIES.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
-        PacketHandler.register();
     }
 }

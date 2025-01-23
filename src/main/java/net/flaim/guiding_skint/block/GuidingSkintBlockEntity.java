@@ -16,7 +16,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 public class GuidingSkintBlockEntity extends BlockEntity implements GeoBlockEntity {
     public RawAnimation DEPLOY_ANIM;
     protected static final RawAnimation INFECTED_ANIM = RawAnimation.begin().thenPlay("animation.infected");
-    protected static final RawAnimation TRANSFORMATION_ANIM = RawAnimation.begin().thenPlay("animation.transformation");
+    public static final RawAnimation TRANSFORMATION_ANIM = RawAnimation.begin().thenPlay("animation.transformation");
     protected static final RawAnimation PURIFIED_ANIM = RawAnimation.begin().thenPlay("animation.purified");
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);

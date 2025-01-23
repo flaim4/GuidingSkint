@@ -1,6 +1,7 @@
 package net.flaim.guiding_skint.block;
 
 import net.flaim.guiding_skint.Registries;
+import net.flaim.guiding_skint.network.BlockStartAnimationS2C;
 import net.flaim.guiding_skint.network.PacketHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -56,8 +57,8 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (state.getValue(INFECTED)) {
-            ((GuidingSkintBlockEntity) level.getBlockEntity(pos)).DEPLOY_ANIM = GuidingSkintBlockEntity.TRANSFORMATION_ANIM;
-            PacketHandler.sendToAllClients(new ClientUpdatePropertyPacket(pos));
+            level.setBlockAndUpdate(pos, state.setValue(INFECTED, false));
+            PacketHandler.sendToAll(new BlockStartAnimationS2C(pos));
             return InteractionResult.SUCCESS;
         }
 
