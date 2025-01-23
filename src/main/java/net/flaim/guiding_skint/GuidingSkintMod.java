@@ -10,7 +10,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class GuidingSkintMod {
     public static final String MOD_ID = "guiding_skint";
 
-    public GuidingSkintMod(FMLJavaModLoadingContext context) {
+    public GuidingSkintMod() {
         IEventBus modEventBus = context.getModEventBus();
         Registries.register(modEventBus);
         PacketHandler.register();
