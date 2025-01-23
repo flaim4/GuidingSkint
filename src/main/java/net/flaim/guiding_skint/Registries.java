@@ -3,14 +3,18 @@ package net.flaim.guiding_skint;
 import net.flaim.guiding_skint.block.GuidingSkintBlock;
 import net.flaim.guiding_skint.block.GuidingSkintBlockEntity;
 import net.flaim.guiding_skint.item.GuidingSkintBlockItem;
+import net.flaim.guiding_skint.network.PacketHandler;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.simple.SimpleChannel;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -42,5 +46,6 @@ public class Registries {
         ITEMS.register(modEventBus);
         BLOCK_ENTITIES.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
+        PacketHandler.register();
     }
 }

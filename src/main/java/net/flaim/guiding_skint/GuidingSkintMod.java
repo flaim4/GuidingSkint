@@ -5,13 +5,14 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.network.simple.SimpleChannel;
 
 @Mod(GuidingSkintMod.MOD_ID)
 public class GuidingSkintMod {
     public static final String MOD_ID = "guiding_skint";
 
-    public GuidingSkintMod(FMLJavaModLoadingContext context) {
-        IEventBus modEventBus = context.getModEventBus();
+    public GuidingSkintMod() {
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         Registries.register(modEventBus);
         PacketHandler.register();
 

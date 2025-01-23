@@ -1,10 +1,9 @@
 package net.flaim.guiding_skint.block;
 
 import net.flaim.guiding_skint.Registries;
-import net.minecraft.client.Minecraft;
+import net.flaim.guiding_skint.network.PacketHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -26,7 +25,6 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import software.bernie.geckolib.core.animation.RawAnimation;
 
 public class GuidingSkintBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -57,8 +55,9 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (state.getValue(GuidingSkintBlock.INFECTED)) {
+        if (state.getValue(INFECTED)) {
             ((GuidingSkintBlockEntity) level.getBlockEntity(pos)).DEPLOY_ANIM = GuidingSkintBlockEntity.TRANSFORMATION_ANIM;
+            PacketHandler.sendToAllClients(new ClientUpdatePropertyPacket(pos));
             return InteractionResult.SUCCESS;
         }
 

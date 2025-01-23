@@ -1,11 +1,7 @@
 package net.flaim.guiding_skint.block;
 
 import net.flaim.guiding_skint.Registries;
-import net.flaim.guiding_skint.network.PacketHandler;
-import net.flaim.guiding_skint.network.UpdatePropertyC2SPacket;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
@@ -37,7 +33,6 @@ public class GuidingSkintBlockEntity extends BlockEntity implements GeoBlockEnti
 
     protected <E extends GuidingSkintBlockEntity> PlayState deployAnimController(final AnimationState<E> state) {
         if (state.getController().getCurrentRawAnimation() == TRANSFORMATION_ANIM && state.getController().hasAnimationFinished()) {
-            PacketHandler.sendToServer(new UpdatePropertyC2SPacket(getBlockPos()));
             DEPLOY_ANIM = PURIFIED_ANIM;
         }
 
