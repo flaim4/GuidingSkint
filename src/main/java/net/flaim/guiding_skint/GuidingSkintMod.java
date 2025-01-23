@@ -11,7 +11,7 @@ public class GuidingSkintMod {
     public static final String MOD_ID = "guiding_skint";
 
     public GuidingSkintMod() {
-        IEventBus modEventBus = context.getModEventBus();
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         Registries.register(modEventBus);
         PacketHandler.register();
 
