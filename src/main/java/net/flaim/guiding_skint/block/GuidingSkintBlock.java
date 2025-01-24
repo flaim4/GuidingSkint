@@ -41,7 +41,7 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
                 .isRedstoneConductor(Registries::NEVER)
                 .noParticlesOnBreak()
                 .sound(SoundType.AMETHYST)
-                .lightLevel((state) -> 12)
+                .lightLevel((state) -> state.getValue(INFECTED) ? 0 : 12)
                 .noOcclusion()
         );
 

@@ -15,7 +15,6 @@ public class GuidingSkintMod {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         Registries.register(modEventBus);
         PacketHandler.register();
-
         MinecraftForge.EVENT_BUS.register(this);
     }
 }
