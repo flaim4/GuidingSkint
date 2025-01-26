@@ -5,6 +5,7 @@ import net.flaim.guiding_skint.block.GuidingSkintBlockEntity;
 import net.flaim.guiding_skint.item.GuidingSkintBlockItem;
 import net.flaim.guiding_skint.structure.GuidingSkintStructure;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -29,6 +30,8 @@ public class Registries {
 
     public static final RegistryObject<Block> GUIDING_SKINT_BLOCK = BLOCKS.register("guiding_skint", () -> new GuidingSkintBlock(BlockBehaviour.Properties.of()));
 
+    public static final RegistryObject<SimpleParticleType> WISP = PARTICLE_TYPES.register("wisp", () -> new SimpleParticleType(false){});
+
     public static final RegistryObject<Item> GUIDING_SKINT_BLOCK_ITEM = ITEMS.register("guiding_skint", () -> new GuidingSkintBlockItem(GUIDING_SKINT_BLOCK.get(), new Item.Properties()));
 
     public static final RegistryObject<BlockEntityType<GuidingSkintBlockEntity>> GUIDING_SKINT_BLOCK_ENTITY = BLOCK_ENTITIES.register("guiding_skint_block_entity", () -> BlockEntityType.Builder.of(GuidingSkintBlockEntity::new, Registries.GUIDING_SKINT_BLOCK.get()).build(null));
@@ -48,5 +51,6 @@ public class Registries {
         BLOCK_ENTITIES.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
         STRUCTURE_TYPES.register(modEventBus);
+        PARTICLE_TYPES.register(modEventBus);
     }
 }

@@ -33,18 +33,17 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
 
     public GuidingSkintBlock(Properties properties) {
         super(properties
-                .mapColor(MapColor.COLOR_YELLOW)
-                .requiresCorrectToolForDrops()
-                .strength(50, 1500)
-                .pushReaction(PushReaction.BLOCK)
-                .isValidSpawn(Registries::NEVER)
-                .isRedstoneConductor(Registries::NEVER)
-                .noParticlesOnBreak()
-                .sound(SoundType.AMETHYST)
-                .lightLevel((state) -> state.getValue(INFECTED) ? 0 : 12)
-                .noOcclusion()
+            .mapColor(MapColor.COLOR_YELLOW)
+            .requiresCorrectToolForDrops()
+            .strength(50, 1500)
+            .pushReaction(PushReaction.BLOCK)
+            .isValidSpawn(Registries::NEVER)
+            .isRedstoneConductor(Registries::NEVER)
+            .noParticlesOnBreak()
+            .sound(SoundType.AMETHYST)
+            .lightLevel((state) -> state.getValue(INFECTED) ? 0 : 12)
+            .noOcclusion()
         );
-
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false).setValue(INFECTED, false));
     }
 
