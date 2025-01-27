@@ -6,6 +6,7 @@ import net.flaim.guiding_skint.network.PacketHandler;
 import net.flaim.guiding_skint.particle.Wisp;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
@@ -117,17 +118,18 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (level.isClientSide && !state.getValue(INFECTED)) {
-            if (random.nextInt(5) == 0) {
-                for (int i = 0; i < 3; i++) {
-                    double x = pos.getX() + 0.5 + (random.nextDouble() - 0.5) * 1.5;
-                    double y = pos.getY() + 0.5 + random.nextDouble();
-                    double z = pos.getZ() + 0.5 + (random.nextDouble() - 0.5) * 1.5;
+            if (random.nextInt(10) == 0) {
+                for (int i = 0; i < 2; i++) {
+                    level.addParticle(
+                        Registries.WISP.get(),
+                        pos.getX() + 0.7 + (random.nextDouble() - 0.5) * 0.5,
+                        pos.getY() + 0.1 + random.nextDouble(),
+                        pos.getZ() + 0.7 + (random.nextDouble() - 0.5) * 0.5,
+                        (random.nextDouble() - 0.5) * 0.1,
+                        0.4 + random.nextDouble() * 3,
+                        (random.nextDouble() - 0.5) * 0.1
+                    );
 
-                    double velocityX = (random.nextDouble() - 0.5) * 0.05;
-                    double velocityY = 0.4 + random.nextDouble() * 0.3;
-                    double velocityZ = (random.nextDouble() - 0.5) * 0.05;
-
-                    level.addParticle(Registries.WISP.get(), x, y, z, velocityX, velocityY, velocityZ);
                 }
             }
         }

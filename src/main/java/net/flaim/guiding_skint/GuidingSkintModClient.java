@@ -18,6 +18,6 @@ public class GuidingSkintModClient {
 
     @SubscribeEvent
     public static void renderParticles(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(Registries.WISP.get(), Wisp.LongFactory::new);
+        event.registerSpriteSet(Registries.WISP.get(), Wisp.NormalFactory::new);
     }
 }

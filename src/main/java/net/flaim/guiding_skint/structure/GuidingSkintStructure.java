@@ -59,8 +59,7 @@ public class GuidingSkintStructure extends Structure {
             BlockState blockState = noiseColumn.getBlock(y);
             y--;
             BlockState blockState2 = noiseColumn.getBlock(y);
-            if (blockState.isAir()
-                    && !blockState2.isAir()) {
+            if (blockState.isAir() && !blockState2.isAir()) {
                 break;
             }
         }
