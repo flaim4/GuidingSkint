@@ -3,9 +3,12 @@ package net.flaim.guiding_skint.block;
 import net.flaim.guiding_skint.Registries;
 import net.flaim.guiding_skint.network.BlockStartAnimationS2C;
 import net.flaim.guiding_skint.network.PacketHandler;
+import net.flaim.guiding_skint.particle.Wisp;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -24,8 +27,11 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+
+import java.util.Random;
 
 public class GuidingSkintBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -107,4 +113,32 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
         if (!world.isClientSide()) return;
         world.levelEvent(player, 2001, pos, getId(state));
     }
+
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        if (level.isClientSide && !state.getValue(INFECTED)) {
+            if (random.nextInt(5) == 0) {
+                for (int i = 0; i < 3; i++) {
+                    double x = pos.getX() + 0.5 + (random.nextDouble() - 0.5) * 1.5;
+                    double y = pos.getY() + 0.5 + random.nextDouble();
+                    double z = pos.getZ() + 0.5 + (random.nextDouble() - 0.5) * 1.5;
+
+                    double velocityX = (random.nextDouble() - 0.5) * 0.05;
+                    double velocityY = 0.4 + random.nextDouble() * 0.3;
+                    double velocityZ = (random.nextDouble() - 0.5) * 0.05;
+
+                    level.addParticle(Registries.WISP.get(), x, y, z, velocityX, velocityY, velocityZ);
+                }
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
 }
