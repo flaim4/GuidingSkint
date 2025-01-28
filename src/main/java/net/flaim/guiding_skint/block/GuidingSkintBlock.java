@@ -3,11 +3,9 @@ package net.flaim.guiding_skint.block;
 import net.flaim.guiding_skint.Registries;
 import net.flaim.guiding_skint.network.BlockStartAnimationS2C;
 import net.flaim.guiding_skint.network.PacketHandler;
-import net.flaim.guiding_skint.particle.Wisp;
+import net.flaim.guiding_skint.particle.WispParticleOptions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -28,11 +26,8 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
-import java.util.Random;
 
 public class GuidingSkintBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -120,8 +115,14 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
         if (level.isClientSide && !state.getValue(INFECTED)) {
             if (random.nextInt(10) == 0) {
                 for (int i = 0; i < 2; i++) {
+                    float red = 252.0f / 255.0f;
+                    float green = 232.0f / 255.0f;
+                    float blue = 123.0f / 255.0f;
+
+                    WispParticleOptions particleOptions = new WispParticleOptions(red, green, blue, 2f);
+
                     level.addParticle(
-                        Registries.WISP.get(),
+                        particleOptions,
                         pos.getX() + 0.7 + (random.nextDouble() - 0.5) * 0.5,
                         pos.getY() + 0.1 + random.nextDouble(),
                         pos.getZ() + 0.7 + (random.nextDouble() - 0.5) * 0.5,
@@ -129,18 +130,10 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
                         0.4 + random.nextDouble() * 3,
                         (random.nextDouble() - 0.5) * 0.1
                     );
-
                 }
             }
         }
     }
-
-
-
-
-
-
-
 
 
 }

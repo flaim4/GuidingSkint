@@ -3,6 +3,9 @@ package net.flaim.guiding_skint;
 
 import net.flaim.guiding_skint.block.GuidingSkintRenderer;
 import net.flaim.guiding_skint.particle.Wisp;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.util.RandomSource;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
@@ -18,6 +21,7 @@ public class GuidingSkintModClient {
 
     @SubscribeEvent
     public static void renderParticles(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(Registries.WISP.get(), Wisp.NormalFactory::new);
+        event.registerSpriteSet(Registries.WISP.get(), spriteSet -> new Wisp.NormalFactory(spriteSet));
     }
+
 }

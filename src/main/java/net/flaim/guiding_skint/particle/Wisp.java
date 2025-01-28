@@ -6,7 +6,6 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.core.particles.SimpleParticleType;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -14,13 +13,16 @@ import org.jetbrains.annotations.Nullable;
 public class Wisp extends TextureSheetParticle {
     private final SpriteSet spriteSet;
 
-    Wisp(ClientLevel level, double x, double y, double z, double velocityX, double velocityY, double velocityZ, SpriteSet spriteSet, float size) {
+    Wisp(ClientLevel level, double x, double y, double z, double velocityX, double velocityY, double velocityZ,
+         SpriteSet spriteSet, float size, WispParticleOptions options) {
         super(level, x, y, z, velocityX, velocityY, velocityZ);
         this.friction = 1f;
         this.spriteSet = spriteSet;
         this.quadSize *= size;
         this.hasPhysics = true;
         this.setSpriteFromAge(spriteSet);
+
+        this.setColor(options.getRed(), options.getGreen(), options.getBlue());
     }
 
     @Override
@@ -39,7 +41,8 @@ public class Wisp extends TextureSheetParticle {
         return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
-    public static class NormalFactory implements ParticleProvider<SimpleParticleType> {
+    public static class NormalFactory implements ParticleProvider<WispParticleOptions> {
+
         private final SpriteSet spriteSet;
 
         public NormalFactory(SpriteSet spriteSet) {
@@ -48,13 +51,16 @@ public class Wisp extends TextureSheetParticle {
 
         @Nullable
         @Override
-        public Particle createParticle(SimpleParticleType particleOptions, ClientLevel clientLevel, double d, double e, double f, double g, double h, double i) {
+        public Particle createParticle(WispParticleOptions particleOptions, ClientLevel clientLevel, double d, double e, double f, double g, double h, double i) {
             float size = 0.2f + clientLevel.random.nextFloat() * 0.2f;
-            Wisp wispParticle = new Wisp(clientLevel, d, e, f, 0.0, 0.0, 0.0, this.spriteSet, size);
-            wispParticle.setColor(0.9882f, 0.9098f, 0.4823f);
+
+            Wisp wispParticle = new Wisp(clientLevel, d, e, f, g * 0.01, h * 0.01, i * 0.01, this.spriteSet, size, particleOptions);
             wispParticle.setParticleSpeed(g * 0.01, h * 0.01, i * 0.01);
             wispParticle.setLifetime(clientLevel.random.nextInt(50) + 40);
+
             return wispParticle;
         }
     }
+
 }
+

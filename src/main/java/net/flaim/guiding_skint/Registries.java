@@ -3,6 +3,8 @@ package net.flaim.guiding_skint;
 import net.flaim.guiding_skint.block.GuidingSkintBlock;
 import net.flaim.guiding_skint.block.GuidingSkintBlockEntity;
 import net.flaim.guiding_skint.item.GuidingSkintBlockItem;
+import net.flaim.guiding_skint.particle.WispParticleOptions;
+import net.flaim.guiding_skint.particle.WispParticleType;
 import net.flaim.guiding_skint.structure.GuidingSkintStructure;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -30,7 +32,7 @@ public class Registries {
 
     public static final RegistryObject<Block> GUIDING_SKINT_BLOCK = BLOCKS.register("guiding_skint", () -> new GuidingSkintBlock(BlockBehaviour.Properties.of()));
 
-    public static final RegistryObject<SimpleParticleType> WISP = PARTICLE_TYPES.register("wisp", () -> new SimpleParticleType(false){});
+    public static final RegistryObject<ParticleType<WispParticleOptions>> WISP = PARTICLE_TYPES.register("wisp", () -> new WispParticleType(true));
 
     public static final RegistryObject<Item> GUIDING_SKINT_BLOCK_ITEM = ITEMS.register("guiding_skint", () -> new GuidingSkintBlockItem(GUIDING_SKINT_BLOCK.get(), new Item.Properties()));
 
