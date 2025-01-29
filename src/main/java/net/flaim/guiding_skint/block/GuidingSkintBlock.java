@@ -112,28 +112,53 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
 
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
-        if (level.isClientSide && !state.getValue(INFECTED)) {
-            if (random.nextInt(10) == 0) {
-                for (int i = 0; i < 2; i++) {
-                    float red = 252.0f / 255.0f;
-                    float green = 232.0f / 255.0f;
-                    float blue = 123.0f / 255.0f;
+        if (!level.isClientSide) return;
 
-                    WispParticleOptions particleOptions = new WispParticleOptions(red, green, blue, 2f);
+        boolean isInfected = state.getValue(INFECTED);
+        int randomChance = isInfected ? 7 : 8;
+        float red, green, blue;
+        double offsetX, offsetY, offsetZ;
+        double particleSpeed;
 
-                    level.addParticle(
-                        particleOptions,
-                        pos.getX() + 0.7 + (random.nextDouble() - 0.5) * 0.5,
-                        pos.getY() + 0.1 + random.nextDouble(),
-                        pos.getZ() + 0.7 + (random.nextDouble() - 0.5) * 0.5,
-                        (random.nextDouble() - 0.5) * 0.1,
-                        0.4 + random.nextDouble() * 3,
-                        (random.nextDouble() - 0.5) * 0.1
-                    );
+        if (random.nextInt(randomChance) == 0) {
+            for (int i = 0; i < 3; i++) {
+                if (isInfected) {
+                    red = 227.0f / 255.0f;
+                    green = 102.0f / 255.0f;
+                    blue = 196.0f / 255.0f;
+                    offsetX = random.nextDouble() - 0.2;
+                    offsetZ = random.nextDouble() - 0.2;
+                    offsetY = random.nextDouble();
+                    particleSpeed = 0.4 + random.nextDouble() * 1;
+                } else {
+                    red = 252.0f / 255.0f;
+                    green = 232.0f / 255.0f;
+                    blue = 123.0f / 255.0f;
+                    offsetX = 0.7 + (random.nextDouble() - 0.5) * 1.0;
+                    offsetZ = 0.7 + (random.nextDouble() - 0.5) * 1.0;
+                    offsetY = 0.1 + random.nextDouble();
+                    particleSpeed = 0.4 + random.nextDouble() * 3;
                 }
+
+                WispParticleOptions particleOptions = new WispParticleOptions(red, green, blue, 2f);
+
+                level.addParticle(
+                    particleOptions,
+                    pos.getX() + offsetX,
+                    pos.getY() + offsetY,
+                    pos.getZ() + offsetZ,
+                    (random.nextDouble() - 0.5) * 0.1,
+                    particleSpeed,
+                    (random.nextDouble() - 0.5) * 0.1
+                );
             }
         }
     }
+
+
+
+
+
 
 
 }
