@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "guiding_skint:guiding_skint_desert",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 464662789,
+    "spacing": 20,
+    "separation": 1
+  }
+}

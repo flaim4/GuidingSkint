@@ -5,6 +5,7 @@ import net.flaim.guiding_skint.block.GuidingSkintBlockEntity;
 import net.flaim.guiding_skint.item.GuidingSkintBlockItem;
 import net.flaim.guiding_skint.particle.WispParticleOptions;
 import net.flaim.guiding_skint.particle.WispParticleType;
+import net.flaim.guiding_skint.structure.GuidingSkintDesertStructure;
 import net.flaim.guiding_skint.structure.GuidingSkintStructure;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -28,7 +29,14 @@ public class Registries {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB, GuidingSkintMod.MOD_ID);
     public static final DeferredRegister<StructureType<?>> STRUCTURE_TYPES = DeferredRegister.create(net.minecraft.core.registries.Registries.STRUCTURE_TYPE, GuidingSkintMod.MOD_ID);
 
-    public static final RegistryObject<StructureType<GuidingSkintStructure>> GUIDING_SKINT = STRUCTURE_TYPES.register("guiding_skint", () -> () -> GuidingSkintStructure.CODEC);
+    public static final RegistryObject<StructureType<GuidingSkintStructure>> GUIDING_SKINT =
+            STRUCTURE_TYPES.register("guiding_skint",
+                    () -> () -> GuidingSkintStructure.CODEC);
+
+    public static final RegistryObject<StructureType<GuidingSkintDesertStructure>> GUIDING_SKINT_DESERT =
+            STRUCTURE_TYPES.register("guiding_skint_desert",
+                    () -> () -> GuidingSkintDesertStructure.CODEC);
+
 
     public static final RegistryObject<Block> GUIDING_SKINT_BLOCK = BLOCKS.register("guiding_skint", () -> new GuidingSkintBlock(BlockBehaviour.Properties.of()));
 
