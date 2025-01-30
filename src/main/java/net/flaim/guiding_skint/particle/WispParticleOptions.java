@@ -16,7 +16,8 @@ public class WispParticleOptions implements ParticleOptions {
                 Codec.FLOAT.fieldOf("red").forGetter(WispParticleOptions::getRed),
                 Codec.FLOAT.fieldOf("green").forGetter(WispParticleOptions::getGreen),
                 Codec.FLOAT.fieldOf("blue").forGetter(WispParticleOptions::getBlue),
-                Codec.FLOAT.fieldOf("size").forGetter(WispParticleOptions::getSize)
+                Codec.FLOAT.fieldOf("size").forGetter(WispParticleOptions::getSize),
+                Codec.FLOAT.fieldOf("setLifetime").forGetter(WispParticleOptions::getSetLifetime)
         ).apply(instance, WispParticleOptions::new);
     });
 
@@ -30,7 +31,9 @@ public class WispParticleOptions implements ParticleOptions {
             float blue = reader.readFloat();
             reader.expect(' ');
             float size = reader.readFloat();
-            return new WispParticleOptions(red, green, blue, size);
+            reader.expect(' ');
+            float setLifetime = reader.readFloat();
+            return new WispParticleOptions(red, green, blue, size, setLifetime);
         }
 
         @Override
@@ -39,7 +42,8 @@ public class WispParticleOptions implements ParticleOptions {
             float green = buffer.readFloat();
             float blue = buffer.readFloat();
             float size = buffer.readFloat();
-            return new WispParticleOptions(red, green, blue, size);
+            float setLifetime = buffer.readFloat();
+            return new WispParticleOptions(red, green, blue, size, setLifetime);
         }
 
     };
@@ -48,12 +52,14 @@ public class WispParticleOptions implements ParticleOptions {
     private final float green;
     private final float blue;
     private final float size;
+    private final float setLifetime;
 
-    public WispParticleOptions(float red, float green, float blue, float size) {
+    public WispParticleOptions(float red, float green, float blue, float size, float setLifetime) {
         this.red = red;
         this.green = green;
         this.blue = blue;
         this.size = size;
+        this.setLifetime = setLifetime;
     }
 
     @Override
@@ -67,6 +73,7 @@ public class WispParticleOptions implements ParticleOptions {
         buffer.writeFloat(green);
         buffer.writeFloat(blue);
         buffer.writeFloat(size);
+        buffer.writeFloat(setLifetime);
     }
 
     @Override
@@ -88,5 +95,9 @@ public class WispParticleOptions implements ParticleOptions {
 
     public float getSize() {
         return size;
+    }
+
+    public float getSetLifetime() {
+        return setLifetime;
     }
 }
