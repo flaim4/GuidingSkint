@@ -111,41 +111,6 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
         world.levelEvent(player, 2001, pos, getId(state));
     }
 
-    public static void spawnParticleWave(Level level, BlockPos pos, RandomSource random, boolean isInfected) {
-        if (!level.isClientSide) return;
-
-        int particleCount = 150;
-        float red, green, blue;
-        double maxRadius = 8.0;
-        double speedMultiplier = maxRadius / 1f;
-
-
-        red = 252.0f / 255.0f;
-        green = 232.0f / 255.0f;
-        blue = 123.0f / 255.0f;
-
-        for (int i = 0; i < particleCount; i++) {
-
-            double theta = 2 * Math.PI * random.nextDouble();
-            double phi = Math.acos(2 * random.nextDouble() - 1);
-
-            double velocityX = Math.sin(phi) * Math.cos(theta) * speedMultiplier;
-            double velocityY = Math.sin(phi) * Math.sin(theta) * speedMultiplier;
-            double velocityZ = Math.cos(phi) * speedMultiplier;
-
-            WispParticleOptions particleOptions = new WispParticleOptions(red, green, blue, 8.0f, 1000);
-
-            level.addParticle(
-                    particleOptions,
-                    pos.getX() + 0.5,
-                    pos.getY() + 0.5,
-                    pos.getZ() + 0.5,
-                    velocityX,
-                    velocityY,
-                    velocityZ
-            );
-        }
-    }
 
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
@@ -177,7 +142,7 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
                     offsetZ = 0.7 + (random.nextDouble() - 0.5) * 1.0;
                     offsetY = 0.1 + random.nextDouble();
                     particleSpeed = 0.4 + random.nextDouble() * 3;
-                    size = 0.6f;
+                    size = 0.4f;
                 }
 
                 WispParticleOptions particleOptions = new WispParticleOptions(red, green, blue, size, 100f);
