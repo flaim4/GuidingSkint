@@ -71,16 +71,29 @@ public class GuidingSkintBlockEntity extends BlockEntity implements GeoBlockEnti
         }
     }
 
+    private long triggerTime = -1;
+
     protected <E extends GuidingSkintBlockEntity> PlayState deployAnimController(final AnimationState<E> state) {
         if (state.getController().getCurrentRawAnimation() == TRANSFORMATION_ANIM) {
             if (state.getController().hasAnimationFinished()) {
                 DEPLOY_ANIM = PURIFIED_ANIM;
-            } else if (Math.floor(state.getAnimationTick() * 10f) == 700f) {
-                spawnParticleWave(level, getBlockPos(), RandomSource.create());
+            } else {
+                long currentTime = System.currentTimeMillis();
+
+                if (triggerTime == -1) {
+                    triggerTime = currentTime + 3100;
+                }
+
+                if (currentTime >= triggerTime) {
+                    spawnParticleWave(level, getBlockPos(), RandomSource.create());
+                    triggerTime = -1;
+                }
             }
         }
         return state.setAndContinue(DEPLOY_ANIM);
     }
+
+
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {

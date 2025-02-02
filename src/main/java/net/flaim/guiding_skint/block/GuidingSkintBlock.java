@@ -111,7 +111,6 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
         world.levelEvent(player, 2001, pos, getId(state));
     }
 
-
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (!level.isClientSide) return;
