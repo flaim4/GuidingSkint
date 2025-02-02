@@ -16,7 +16,11 @@ public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
 
     public static final ResourceLocation GUI_ICONS_LOCATION = new ResourceLocation(GuidingSkintMod.MOD_ID, "textures/gui/guiding_skint_cleared.png");
 
+    private static long displayEndTime = 0;
 
+    public static void showImageFor5Seconds() {
+        displayEndTime = System.currentTimeMillis() + 5000;
+    }
 
     @Override
     public void onResourceManagerReload(ResourceManager resourceManager) {
@@ -25,17 +29,19 @@ public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
 
     @Override
     public void render(ForgeGui forgeGui, GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
-        PoseStack poseStack = guiGraphics.pose();
-        poseStack.pushPose();
+        if (System.currentTimeMillis() < displayEndTime) {
+            PoseStack poseStack = guiGraphics.pose();
+            poseStack.pushPose();
 
-        int baseWidth = 418;
-        int baseHeight = 25;
+            int baseWidth = 418;
+            int baseHeight = 25;
 
-        RenderSystem.setShaderTexture(0, GUI_ICONS_LOCATION);
+            RenderSystem.setShaderTexture(0, GUI_ICONS_LOCATION);
 
-        guiGraphics.blit(GUI_ICONS_LOCATION, 10, 10, 0, 0, baseWidth, baseHeight, baseWidth, baseHeight);
+            guiGraphics.blit(GUI_ICONS_LOCATION, 10, 10, 0, 0, baseWidth, baseHeight, baseWidth, baseHeight);
 
-        poseStack.popPose();
+            poseStack.popPose();
+        }
     }
 
 

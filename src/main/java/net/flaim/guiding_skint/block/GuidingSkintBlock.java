@@ -1,6 +1,7 @@
 package net.flaim.guiding_skint.block;
 
 import net.flaim.guiding_skint.Registries;
+import net.flaim.guiding_skint.client.HUDHandler;
 import net.flaim.guiding_skint.network.BlockStartAnimationS2C;
 import net.flaim.guiding_skint.network.PacketHandler;
 import net.flaim.guiding_skint.particle.WispParticleOptions;
@@ -62,6 +63,9 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
             level.setBlockAndUpdate(pos, state.setValue(INFECTED, false));
             PacketHandler.sendToAll(new BlockStartAnimationS2C(pos));
             return InteractionResult.SUCCESS;
+        }
+        if (state.getValue(INFECTED) &&  level.isClientSide()) {
+            HUDHandler.showImageFor5Seconds();
         }
 
         return InteractionResult.PASS;
