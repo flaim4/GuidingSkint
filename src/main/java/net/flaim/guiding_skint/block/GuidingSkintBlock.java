@@ -64,9 +64,6 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
             PacketHandler.sendToAll(new BlockStartAnimationS2C(pos));
             return InteractionResult.SUCCESS;
         }
-        if (state.getValue(INFECTED) &&  level.isClientSide()) {
-            HUDHandler.showImageFor5Seconds();
-        }
 
         return InteractionResult.PASS;
     }

@@ -1,6 +1,7 @@
 package net.flaim.guiding_skint.block;
 
 import net.flaim.guiding_skint.Registries;
+import net.flaim.guiding_skint.client.HUDHandler;
 import net.flaim.guiding_skint.particle.WispParticleOptions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -86,6 +87,7 @@ public class GuidingSkintBlockEntity extends BlockEntity implements GeoBlockEnti
 
                 if (currentTime >= triggerTime) {
                     spawnParticleWave(level, getBlockPos(), RandomSource.create());
+                    HUDHandler.showImageFor5Seconds();
                     triggerTime = -1;
                 }
             }

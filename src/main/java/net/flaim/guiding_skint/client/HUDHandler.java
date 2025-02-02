@@ -16,29 +16,55 @@ public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
 
     public static final ResourceLocation GUI_ICONS_LOCATION = new ResourceLocation(GuidingSkintMod.MOD_ID, "textures/gui/guiding_skint_cleared.png");
 
-    private static long displayEndTime = 0;
-
-    public static void showImageFor5Seconds() {
-        displayEndTime = System.currentTimeMillis() + 5000;
-    }
-
     @Override
     public void onResourceManagerReload(ResourceManager resourceManager) {
 
     }
 
+    private static long showStartTime = 0;
+    private static long displayEndTime = 0;
+    private static final long totalDisplayTime = 5000;
+    private static  final long fadeDuration = 1000;
+
+    public static void showImageFor5Seconds() {
+        showStartTime = System.currentTimeMillis();
+        displayEndTime = showStartTime + totalDisplayTime;
+    }
+
     @Override
     public void render(ForgeGui forgeGui, GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
-        if (System.currentTimeMillis() < displayEndTime) {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime < displayEndTime) {
+            float alpha = 1.0f;
+            long elapsed = currentTime - showStartTime;
+            if (elapsed < fadeDuration) {
+                alpha = elapsed / (float) fadeDuration;
+            }
+            else if (currentTime > displayEndTime - fadeDuration) {
+                alpha = (displayEndTime - currentTime) / (float) fadeDuration;
+            }
+
             PoseStack poseStack = guiGraphics.pose();
             poseStack.pushPose();
+
+            RenderSystem.enableBlend();
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, alpha);
 
             int baseWidth = 418;
             int baseHeight = 25;
 
             RenderSystem.setShaderTexture(0, GUI_ICONS_LOCATION);
 
-            guiGraphics.blit(GUI_ICONS_LOCATION, 10, 10, 0, 0, baseWidth, baseHeight, baseWidth, baseHeight);
+            int screenWidth = forgeGui.getMinecraft().getWindow().getGuiScaledWidth();
+            int screenHeight = forgeGui.getMinecraft().getWindow().getGuiScaledHeight();
+
+            int centerX = (screenWidth - baseWidth)/ 2;
+            int centerY = (screenHeight - baseHeight) / 2;
+
+            guiGraphics.blit(GUI_ICONS_LOCATION, centerX, centerY, 0, 0, baseWidth, baseHeight, baseWidth, baseHeight);
+
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+            RenderSystem.disableBlend();
 
             poseStack.popPose();
         }
