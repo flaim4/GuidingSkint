@@ -14,7 +14,10 @@ public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
 
     public static final HUDHandler INSTANCE = new HUDHandler();
 
-    public static final ResourceLocation GUI_ICONS_LOCATION = new ResourceLocation(GuidingSkintMod.MOD_ID, "textures/gui/guiding_skint_cleared.png");
+    public static final ResourceLocation SKINT_CLEAR = new ResourceLocation(GuidingSkintMod.MOD_ID, "textures/gui/guiding_skint_cleared.png");
+    public static final ResourceLocation SKINT_CLEAR_LINE = new ResourceLocation(GuidingSkintMod.MOD_ID, "textures/gui/line.png");
+    public static final ResourceLocation SKINT_CLEAR_SHADOW = new ResourceLocation(GuidingSkintMod.MOD_ID, "textures/gui/guiding_skint_cleared_shadow.png");
+
 
     @Override
     public void onResourceManagerReload(ResourceManager resourceManager) {
@@ -50,18 +53,16 @@ public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
             RenderSystem.enableBlend();
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, alpha);
 
-            int baseWidth = 418;
-            int baseHeight = 25;
-
-            RenderSystem.setShaderTexture(0, GUI_ICONS_LOCATION);
 
             int screenWidth = forgeGui.getMinecraft().getWindow().getGuiScaledWidth();
             int screenHeight = forgeGui.getMinecraft().getWindow().getGuiScaledHeight();
 
-            int centerX = (screenWidth - baseWidth)/ 2;
-            int centerY = (screenHeight - baseHeight) / 2;
+            RenderSystem.setShaderTexture(0, SKINT_CLEAR_SHADOW);
+            guiGraphics.blit(SKINT_CLEAR_SHADOW, (screenWidth - 506)/ 2, (screenHeight - 112) / 2, 0, 0, 506, 112, 506, 112);
 
-            guiGraphics.blit(GUI_ICONS_LOCATION, centerX, centerY, 0, 0, baseWidth, baseHeight, baseWidth, baseHeight);
+            RenderSystem.setShaderTexture(0, SKINT_CLEAR);
+            guiGraphics.blit(SKINT_CLEAR, (screenWidth - 418) / 2, (screenHeight - 25) / 2, 0, 0, 418, 25, 418, 25);
+
 
             RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
             RenderSystem.disableBlend();
