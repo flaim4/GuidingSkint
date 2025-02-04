@@ -12,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class Wisp extends TextureSheetParticle {
     private final SpriteSet spriteSet;
+    private final float initialSize;
 
     Wisp(ClientLevel level, double x, double y, double z, double velocityX, double velocityY, double velocityZ,
          SpriteSet spriteSet, float size, WispParticleOptions options) {
@@ -19,6 +20,7 @@ public class Wisp extends TextureSheetParticle {
         this.friction = 1f;
         this.spriteSet = spriteSet;
         this.quadSize *= size;
+        this.initialSize = this.quadSize;
         this.hasPhysics = true;
         this.setSpriteFromAge(spriteSet);
 
@@ -34,6 +36,11 @@ public class Wisp extends TextureSheetParticle {
     public void tick() {
         super.tick();
         this.setSpriteFromAge(this.spriteSet);
+
+        float lifeProgress = (float) this.age / this.lifetime;
+        this.quadSize = initialSize * (1.0f - lifeProgress);
+
+        this.alpha = 1.0f - lifeProgress;
     }
 
     @Override
@@ -52,14 +59,14 @@ public class Wisp extends TextureSheetParticle {
         @Nullable
         @Override
         public Particle createParticle(WispParticleOptions particleOptions, ClientLevel clientLevel, double d, double e, double f, double g, double h, double i) {
-
             Wisp wispParticle = new Wisp(clientLevel, d, e, f, g * 0.01, h * 0.01, i * 0.01, this.spriteSet, particleOptions.getSize(), particleOptions);
             wispParticle.setLifetime((int) particleOptions.getSetLifetime());
             wispParticle.setParticleSpeed(g * 0.01, h * 0.01, i * 0.01);
-
             return wispParticle;
         }
     }
 
+
 }
+
 
