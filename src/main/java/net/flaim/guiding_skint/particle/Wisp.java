@@ -24,7 +24,7 @@ public class Wisp extends TextureSheetParticle {
         this.hasPhysics = true;
         this.setSpriteFromAge(spriteSet);
 
-        this.setColor(options.getRed(), options.getGreen(), options.getBlue());
+        this.setColor(options.red(), options.green(), options.blue());
     }
 
     @Override
@@ -59,8 +59,8 @@ public class Wisp extends TextureSheetParticle {
         @Nullable
         @Override
         public Particle createParticle(WispParticleOptions particleOptions, ClientLevel clientLevel, double d, double e, double f, double g, double h, double i) {
-            Wisp wispParticle = new Wisp(clientLevel, d, e, f, g * 0.01, h * 0.01, i * 0.01, this.spriteSet, particleOptions.getSize(), particleOptions);
-            wispParticle.setLifetime((int) particleOptions.getSetLifetime());
+            Wisp wispParticle = new Wisp(clientLevel, d, e, f, g * 0.01, h * 0.01, i * 0.01, this.spriteSet, particleOptions.size(), particleOptions);
+            wispParticle.setLifetime((int) particleOptions.setLifetime());
             wispParticle.setParticleSpeed(g * 0.01, h * 0.01, i * 0.01);
             return wispParticle;
         }

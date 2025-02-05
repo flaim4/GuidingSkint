@@ -8,7 +8,6 @@ import net.flaim.guiding_skint.particle.WispParticleType;
 import net.flaim.guiding_skint.structure.GuidingSkintDesertStructure;
 import net.flaim.guiding_skint.structure.GuidingSkintStructure;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;

@@ -4,7 +4,6 @@ import net.flaim.guiding_skint.Registries;
 import net.flaim.guiding_skint.client.HUDHandler;
 import net.flaim.guiding_skint.particle.WispParticleOptions;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;

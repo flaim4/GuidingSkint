@@ -1,7 +1,6 @@
 package net.flaim.guiding_skint.block;
 
 import net.flaim.guiding_skint.Registries;
-import net.flaim.guiding_skint.client.HUDHandler;
 import net.flaim.guiding_skint.network.BlockStartAnimationS2C;
 import net.flaim.guiding_skint.network.PacketHandler;
 import net.flaim.guiding_skint.particle.WispParticleOptions;
@@ -29,11 +28,16 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 
 public class GuidingSkintBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
-    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty INFECTED = BooleanProperty.create("infected");
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
+    private static final float[][] COLORS = {
+        {0.99f, 0.91f, 0.48f},
+        {0.89f, 0.4f, 0.77f}
+    };
 
     public GuidingSkintBlock(Properties properties) {
         super(properties
@@ -58,14 +62,12 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    public @NotNull InteractionResult use(BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
         if (state.getValue(INFECTED) && !level.isClientSide()) {
             level.setBlockAndUpdate(pos, state.setValue(INFECTED, false));
             PacketHandler.sendToAll(new BlockStartAnimationS2C(pos));
             return InteractionResult.SUCCESS;
         }
-
-
 
         return InteractionResult.PASS;
     }
@@ -76,17 +78,17 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+    public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return Block.box(2, 0, 2, 14, state.getValue(INFECTED) ? 8 : 28, 14);
     }
 
     @Override
-    public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+    public @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return getShape(state, world, pos, context);
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor world, BlockPos pos, BlockPos facingPos) {
+    public @NotNull BlockState updateShape(BlockState state, @NotNull Direction facing, @NotNull BlockState facingState, @NotNull LevelAccessor world, @NotNull BlockPos pos, @NotNull BlockPos facingPos) {
         if (state.getValue(WATERLOGGED)) {
             world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
         }
@@ -94,87 +96,59 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
     }
 
     @Override
-    public FluidState getFluidState(BlockState state) {
+    public @NotNull FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
         return new GuidingSkintBlockEntity(pos, state);
     }
 
     @Override
-    public RenderShape getRenderShape(BlockState state) {
+    public @NotNull RenderShape getRenderShape(@NotNull BlockState state) {
         return RenderShape.INVISIBLE;
     }
 
     @Override
-    protected void spawnDestroyParticles(Level world, Player player, BlockPos pos, BlockState state) {
+    protected void spawnDestroyParticles(Level world, @NotNull Player player, @NotNull BlockPos pos, @NotNull BlockState state) {
         if (!world.isClientSide()) return;
         world.levelEvent(player, 2001, pos, getId(state));
     }
 
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
-        if (!level.isClientSide) return;
+    public void animateTick(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+        if (!level.isClientSide || random.nextInt(state.getValue(INFECTED) ? 10 : 8) != 0) return;
 
-        boolean isInfected = state.getValue(INFECTED);
-        int randomChance = isInfected ? 10 : 8;
-        float red, green, blue;
-        double offsetX, offsetY, offsetZ;
-        double particleSpeed;
+        float[] color;
+        double offsetXZ, offsetY, speedMultiplier;
         float size;
+        if (state.getValue(INFECTED)) {
+            color = COLORS[1];
+            offsetXZ = -0.2;
+            offsetY = 0;
+            speedMultiplier = 1;
+            size = 0.2f;
+        } else {
+            color = COLORS[0];
+            offsetXZ = 0.2;
+            offsetY = 0.1;
+            speedMultiplier = 3;
+            size = 0.4f;
+        }
 
-        if (random.nextInt(randomChance) == 0) {
-            for (int i = 0; i < 3; i++) {
-                if (isInfected) {
-                    red = 227.0f / 255.0f;
-                    green = 102.0f / 255.0f;
-                    blue = 196.0f / 255.0f;
-                    offsetX = random.nextDouble() - 0.2;
-                    offsetZ = random.nextDouble() - 0.2;
-                    offsetY = random.nextDouble();
-                    particleSpeed = 0.4 + random.nextDouble() * 1;
-                    size = 0.2f;
-                } else {
-                    red = 252.0f / 255.0f;
-                    green = 232.0f / 255.0f;
-                    blue = 123.0f / 255.0f;
-                    offsetX = 0.7 + (random.nextDouble() - 0.5) * 1.0;
-                    offsetZ = 0.7 + (random.nextDouble() - 0.5) * 1.0;
-                    offsetY = 0.1 + random.nextDouble();
-                    particleSpeed = 0.4 + random.nextDouble() * 3;
-                    size = 0.4f;
-                }
+        WispParticleOptions particleOptions = new WispParticleOptions(color[0], color[1], color[2], size, 100f);
 
-                WispParticleOptions particleOptions = new WispParticleOptions(red, green, blue, size, 100f);
-
-                level.addParticle(
-                        particleOptions,
-                        pos.getX() + offsetX,
-                        pos.getY() + offsetY,
-                        pos.getZ() + offsetZ,
-                        (random.nextDouble() - 0.5) * 0.1,
-                        particleSpeed,
-                        (random.nextDouble() - 0.5) * 0.1
-                );
-            }
+        for (int i = 0; i < 3; i++) {
+            level.addParticle(
+                particleOptions,
+                pos.getX() + random.nextDouble() + offsetXZ,
+                pos.getY() + random.nextDouble() + offsetY,
+                pos.getZ() + random.nextDouble() + offsetXZ,
+                (random.nextDouble() - 0.5) * 0.1,
+                random.nextDouble() * speedMultiplier + 0.4,
+                (random.nextDouble() - 0.5) * 0.1
+            );
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

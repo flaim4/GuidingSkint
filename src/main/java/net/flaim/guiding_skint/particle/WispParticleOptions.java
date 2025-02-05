@@ -8,22 +8,20 @@ import net.flaim.guiding_skint.Registries;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.FriendlyByteBuf;
+import org.jetbrains.annotations.NotNull;
 
-public class WispParticleOptions implements ParticleOptions {
+public record WispParticleOptions(float red, float green, float blue, float size, float setLifetime) implements ParticleOptions {
+    public static final Codec<WispParticleOptions> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
+            Codec.FLOAT.fieldOf("red").forGetter(WispParticleOptions::red),
+            Codec.FLOAT.fieldOf("green").forGetter(WispParticleOptions::green),
+            Codec.FLOAT.fieldOf("blue").forGetter(WispParticleOptions::blue),
+            Codec.FLOAT.fieldOf("size").forGetter(WispParticleOptions::size),
+            Codec.FLOAT.fieldOf("setLifetime").forGetter(WispParticleOptions::setLifetime)
+    ).apply(instance, WispParticleOptions::new));
 
-    public static final Codec<WispParticleOptions> CODEC = RecordCodecBuilder.create((instance) -> {
-        return instance.group(
-                Codec.FLOAT.fieldOf("red").forGetter(WispParticleOptions::getRed),
-                Codec.FLOAT.fieldOf("green").forGetter(WispParticleOptions::getGreen),
-                Codec.FLOAT.fieldOf("blue").forGetter(WispParticleOptions::getBlue),
-                Codec.FLOAT.fieldOf("size").forGetter(WispParticleOptions::getSize),
-                Codec.FLOAT.fieldOf("setLifetime").forGetter(WispParticleOptions::getSetLifetime)
-        ).apply(instance, WispParticleOptions::new);
-    });
-
-    public static final ParticleOptions.Deserializer<WispParticleOptions> DESERIALIZER = new ParticleOptions.Deserializer<WispParticleOptions>() {
+    public static final Deserializer<WispParticleOptions> DESERIALIZER = new Deserializer<>() {
         @Override
-        public WispParticleOptions fromCommand(ParticleType<WispParticleOptions> particleType, StringReader reader) throws CommandSyntaxException {
+        public @NotNull WispParticleOptions fromCommand(@NotNull ParticleType<WispParticleOptions> particleType, StringReader reader) throws CommandSyntaxException {
             float red = reader.readFloat();
             reader.expect(' ');
             float green = reader.readFloat();
@@ -37,7 +35,7 @@ public class WispParticleOptions implements ParticleOptions {
         }
 
         @Override
-        public WispParticleOptions fromNetwork(ParticleType<WispParticleOptions> particleType, FriendlyByteBuf buffer) {
+        public @NotNull WispParticleOptions fromNetwork(@NotNull ParticleType<WispParticleOptions> particleType, FriendlyByteBuf buffer) {
             float red = buffer.readFloat();
             float green = buffer.readFloat();
             float blue = buffer.readFloat();
@@ -45,25 +43,10 @@ public class WispParticleOptions implements ParticleOptions {
             float setLifetime = buffer.readFloat();
             return new WispParticleOptions(red, green, blue, size, setLifetime);
         }
-
     };
 
-    private final float red;
-    private final float green;
-    private final float blue;
-    private final float size;
-    private final float setLifetime;
-
-    public WispParticleOptions(float red, float green, float blue, float size, float setLifetime) {
-        this.red = red;
-        this.green = green;
-        this.blue = blue;
-        this.size = size;
-        this.setLifetime = setLifetime;
-    }
-
     @Override
-    public ParticleType<?> getType() {
+    public @NotNull ParticleType<?> getType() {
         return Registries.WISP.get();
     }
 
@@ -77,27 +60,7 @@ public class WispParticleOptions implements ParticleOptions {
     }
 
     @Override
-    public String writeToString() {
+    public @NotNull String writeToString() {
         return String.format("WispParticleOptions{red=%.2f, green=%.2f, blue=%.2f, size=%.2f}", red, green, blue, size);
-    }
-
-    public float getRed() {
-        return red;
-    }
-
-    public float getGreen() {
-        return green;
-    }
-
-    public float getBlue() {
-        return blue;
-    }
-
-    public float getSize() {
-        return size;
-    }
-
-    public float getSetLifetime() {
-        return setLifetime;
     }
 }
