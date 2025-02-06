@@ -3,6 +3,7 @@ package net.flaim.guiding_skint.client;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.flaim.guiding_skint.GuidingSkintMod;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -29,7 +30,41 @@ public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
 
     @Override
     public void render(ForgeGui forgeGui, GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
+        int screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
+        int screenHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
+        double guiScale = Minecraft.getInstance().getWindow().getGuiScale();
 
+        int originalWidth = 430;
+        int originalHeight = 39;
+
+        double reductionFactor = 0.8;
+        int imageWidth = (int) (originalWidth * reductionFactor);
+        int imageHeight = (int) (originalHeight * reductionFactor);
+
+        double scaleFactor = 4.0 / guiScale;
+        imageWidth *= scaleFactor;
+        imageHeight *= scaleFactor;
+
+        if (imageWidth > screenWidth || imageHeight > screenHeight) {
+            double widthRatio = (double) screenWidth / imageWidth;
+            double heightRatio = (double) screenHeight / imageHeight;
+
+            double scale = Math.min(widthRatio, heightRatio);
+
+            imageWidth = (int) (imageWidth * scale);
+            imageHeight = (int) (imageHeight * scale);
+        }
+
+        int x = (screenWidth - imageWidth) / 2;
+        int y = (screenHeight - imageHeight) / 2;
+
+
+        guiGraphics.blit(SKINT_CLEAR, x, y, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
     }
+
+
+
+
+
 
 }
