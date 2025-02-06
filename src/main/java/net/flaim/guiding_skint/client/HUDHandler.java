@@ -33,10 +33,7 @@ public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
         int screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
         int screenHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
 
-        int originalWidth = 430;
-        int originalHeight = 39;
-
-        int[] scaledDimensions = getScaledImageSize(originalWidth, originalHeight, 0.8);
+        int[] scaledDimensions = getScaledImageSize(430, 39, 0.8);
         int imageWidth = scaledDimensions[0];
         int imageHeight = scaledDimensions[1];
 
@@ -51,12 +48,11 @@ public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
     public int[] getScaledImageSize(int originalWidth, int originalHeight, double reductionFactor) {
         int screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
         int screenHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
-        double guiScale = Minecraft.getInstance().getWindow().getGuiScale();
 
         int imageWidth = (int) (originalWidth * reductionFactor);
         int imageHeight = (int) (originalHeight * reductionFactor);
 
-        double scaleFactor = 4.0 / guiScale;
+        double scaleFactor = 4.0 / Minecraft.getInstance().getWindow().getGuiScale();
         imageWidth *= scaleFactor;
         imageHeight *= scaleFactor;
 
