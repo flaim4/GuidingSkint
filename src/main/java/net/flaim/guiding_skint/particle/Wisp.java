@@ -58,7 +58,7 @@ public class Wisp extends TextureSheetParticle {
 
         @Nullable
         @Override
-        public Particle createParticle(WispParticleOptions particleOptions, ClientLevel clientLevel, double d, double e, double f, double g, double h, double i) {
+        public Particle createParticle(@NotNull WispParticleOptions particleOptions, @NotNull ClientLevel clientLevel, double d, double e, double f, double g, double h, double i) {
             Wisp wispParticle = new Wisp(clientLevel, d, e, f, g * 0.01, h * 0.01, i * 0.01, this.spriteSet, particleOptions.size(), particleOptions);
             wispParticle.setLifetime((int) particleOptions.setLifetime());
             wispParticle.setParticleSpeed(g * 0.01, h * 0.01, i * 0.01);

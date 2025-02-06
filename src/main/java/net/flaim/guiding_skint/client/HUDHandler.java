@@ -9,9 +9,9 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
+import org.jetbrains.annotations.NotNull;
 
 public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
-
     public static final HUDHandler INSTANCE = new HUDHandler();
 
     public static final ResourceLocation SKINT_CLEAR = new ResourceLocation(GuidingSkintMod.MOD_ID, "textures/gui/guiding_skint_cleared.png");
@@ -20,7 +20,7 @@ public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
 
 
     @Override
-    public void onResourceManagerReload(ResourceManager resourceManager) {
+    public void onResourceManagerReload(@NotNull ResourceManager resourceManager) {
 
     }
 
@@ -88,12 +88,4 @@ public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
             poseStack.popPose();
         }
     }
-
-
-
-
-
-
-
-
 }

@@ -21,12 +21,11 @@ public class GuidingSkintModClient {
 
     @SubscribeEvent
     public static void renderParticles(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(Registries.WISP.get(), spriteSet -> new Wisp.NormalFactory(spriteSet));
+        event.registerSpriteSet(Registries.WISP.get(), Wisp.NormalFactory::new);
     }
 
     @SubscribeEvent
     public static void registerOverlayEvent(RegisterGuiOverlaysEvent event) {
         event.registerAboveAll("hud", HUDHandler.INSTANCE);
     }
-
 }

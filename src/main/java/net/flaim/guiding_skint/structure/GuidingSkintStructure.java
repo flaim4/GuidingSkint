@@ -15,6 +15,7 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pools.JigsawPlacement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
@@ -47,7 +48,7 @@ public class GuidingSkintStructure extends Structure {
             ).apply(instance, GuidingSkintStructure::new)).codec();
 
     @Override
-    protected Optional<GenerationStub> findGenerationPoint(GenerationContext context) {
+    protected @NotNull Optional<GenerationStub> findGenerationPoint(GenerationContext context) {
         WorldgenRandom worldgenRandom = context.random();
         int x = context.chunkPos().getMinBlockX() + worldgenRandom.nextInt(16);
         int z = context.chunkPos().getMinBlockZ() + worldgenRandom.nextInt(16);
@@ -73,7 +74,7 @@ public class GuidingSkintStructure extends Structure {
     }
 
     @Override
-    public StructureType<?> type() {
+    public @NotNull StructureType<?> type() {
         return null;
     }
 }

@@ -3,6 +3,7 @@ package net.flaim.guiding_skint.particle;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
+import org.jetbrains.annotations.NotNull;
 
 public class WispParticleType extends ParticleType<WispParticleOptions> {
     public WispParticleType(boolean alwaysShow) {
@@ -10,12 +11,12 @@ public class WispParticleType extends ParticleType<WispParticleOptions> {
     }
 
     @Override
-    public ParticleOptions.Deserializer<WispParticleOptions> getDeserializer() {
+    public ParticleOptions.@NotNull Deserializer<WispParticleOptions> getDeserializer() {
         return WispParticleOptions.DESERIALIZER;
     }
 
     @Override
-    public Codec<WispParticleOptions> codec() {
+    public @NotNull Codec<WispParticleOptions> codec() {
         return WispParticleOptions.CODEC;
     }
 }
