@@ -40,11 +40,12 @@ public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
         int imageWidth = scaledDimensions[0];
         int imageHeight = scaledDimensions[1];
 
-        int x = (screenWidth - imageWidth) / 2;
-        int y = (screenHeight - imageHeight) / 2;
+        int[] shadow = getScaledImageSize(692, 120, 1);
+        int imageShadowWidth = shadow[0];
+        int imageShadowHeight = shadow[1];
 
-
-        guiGraphics.blit(SKINT_CLEAR, x, y, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
+        guiGraphics.blit(SKINT_CLEAR_SHADOW, (int) (screenWidth - imageShadowWidth) / 2, (int) (screenHeight - imageShadowHeight) / 2, 0, 0, imageShadowWidth, imageShadowHeight, imageShadowWidth, imageShadowHeight);
+        guiGraphics.blit(SKINT_CLEAR, (int) (screenWidth - imageWidth) / 2, (int) (screenHeight - imageHeight) / 2, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
     }
 
     public int[] getScaledImageSize(int originalWidth, int originalHeight, double reductionFactor) {
