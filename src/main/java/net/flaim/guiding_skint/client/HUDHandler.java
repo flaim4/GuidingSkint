@@ -51,8 +51,8 @@ public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
 
             double scale = Math.min(widthRatio, heightRatio);
 
-            imageWidth = (int) (imageWidth * scale);
-            imageHeight = (int) (imageHeight * scale);
+            imageWidth = (int) ((imageWidth * scale) * reductionFactor);
+            imageHeight = (int) ((imageHeight * scale) * reductionFactor);
         }
 
         int x = (screenWidth - imageWidth) / 2;
