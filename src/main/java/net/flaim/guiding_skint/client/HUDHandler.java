@@ -13,16 +13,18 @@ import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
     public static final HUDHandler INSTANCE = new HUDHandler();
 
-    public static final ResourceLocation SKINT_CLEAR = new ResourceLocation(GuidingSkintMod.MOD_ID, "textures/gui/guiding_skint_cleared.png");
-    public static final ResourceLocation SKINT_CLEAR_SHADOW = new ResourceLocation(GuidingSkintMod.MOD_ID, "textures/gui/guiding_skint_cleared_shadow.png");
+    private static final ResourceLocation SKINT_CLEAR = new ResourceLocation(GuidingSkintMod.MOD_ID, "textures/gui/guiding_skint_cleared.png");
+    private static final ResourceLocation SKINT_CLEAR_LINE = new ResourceLocation(GuidingSkintMod.MOD_ID, "textures/gui/skint_line.png");
+    private static final ResourceLocation SKINT_CLEAR_SHADOW = new ResourceLocation(GuidingSkintMod.MOD_ID, "textures/gui/guiding_skint_cleared_shadow.png");
 
     private static final long DISPLAY_DURATION = 5000;
-    private static final long FADE_DURATION = 2000;
+    private static final long FADE_DURATION = 3000;
+    private static final long LINE_SCALE_DURATION = 3000;
+    private static final long CLEAR_SCALE_DELAY = 0;
+    private static final long CLEAR_SCALE_DURATION = 3000;
 
     private static long startTime = -1;
     private static boolean runRender = false;
-    private static float alpha = 1.0f;
-    private static float scaleFactor = 0.5f;
     private static int screenWidth, screenHeight;
 
     public static void startTimer() {
@@ -32,43 +34,37 @@ public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
 
     @Override
     public void render(ForgeGui forgeGui, GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
-        if (!runRender) return;
+        if (!runRender || startTime == -1) return;
 
-        long currentTime = System.currentTimeMillis();
-        long elapsedTime = currentTime - startTime;
-
+        long elapsedTime = System.currentTimeMillis() - startTime;
         if (elapsedTime > DISPLAY_DURATION + FADE_DURATION) {
             runRender = false;
             return;
         }
 
-        if (elapsedTime < FADE_DURATION) {
-            alpha = elapsedTime / (float) FADE_DURATION;
-        } else if (elapsedTime > DISPLAY_DURATION) {
-            long fadeOutElapsed = elapsedTime - DISPLAY_DURATION;
-            alpha = 1.0f - (fadeOutElapsed / (float) FADE_DURATION);
-        } else {
-            alpha = 1.0f;
-        }
+        float alpha = Math.min(1.0f, Math.max(0.0f, elapsedTime < FADE_DURATION ? elapsedTime / (float) FADE_DURATION : 1.0f - (Math.max(0, elapsedTime - DISPLAY_DURATION) / (float) FADE_DURATION)));
 
-        if (elapsedTime < FADE_DURATION) {
-            scaleFactor = 0.5f + (elapsedTime / (float) FADE_DURATION) * 0.3f;
-        } else {
-            scaleFactor = 0.8f;
+        float scaleFactorLine = elapsedTime < LINE_SCALE_DURATION ? 0.5f + (elapsedTime / (float) LINE_SCALE_DURATION) * 0.4f : 0.9f;
+        float scaleFactorClear = 0.5f;
+        if (elapsedTime > CLEAR_SCALE_DELAY) {
+            long adjustedTime = elapsedTime - CLEAR_SCALE_DELAY;
+            scaleFactorClear = 0.5f + Math.min(adjustedTime / (float) CLEAR_SCALE_DURATION, 1.0f) * 0.3f;
         }
 
         screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
         screenHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
 
-        int[] scaledDimensions = getScaledImageSize(430, 39, scaleFactor);
-        int[] shadow = getScaledImageSize(692, 120, 1);
+        int[] scaledShadow = getScaledImageSize(692, 120, 1.0f);
+        int[] scaledLine = getScaledImageSize(418, 25, scaleFactorLine);
+        int[] scaledClear = getScaledImageSize(430, 39, scaleFactorClear);
 
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, alpha);
-        guiGraphics.blit(SKINT_CLEAR_SHADOW, (screenWidth - shadow[0]) / 2, (screenHeight - shadow[1]) / 2, 0, 0, shadow[0], shadow[1], shadow[0], shadow[1]);
-
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, alpha);
-        guiGraphics.blit(SKINT_CLEAR, (screenWidth - scaledDimensions[0]) / 2, (screenHeight - scaledDimensions[1]) / 2, 0, 0, scaledDimensions[0], scaledDimensions[1], scaledDimensions[0], scaledDimensions[1]);
+        guiGraphics.blit(SKINT_CLEAR_SHADOW, (screenWidth - scaledShadow[0]) / 2, (screenHeight - scaledShadow[1]) / 2, 0, 0, scaledShadow[0], scaledShadow[1], scaledShadow[0], scaledShadow[1]);
+        guiGraphics.blit(SKINT_CLEAR_LINE, (screenWidth - scaledLine[0]) / 2, (screenHeight - scaledLine[1]) / 2, 0, 0, scaledLine[0], scaledLine[1], scaledLine[0], scaledLine[1]);
+        guiGraphics.blit(SKINT_CLEAR, (screenWidth - scaledClear[0]) / 2, (screenHeight - scaledClear[1]) / 2, 0, 0, scaledClear[0], scaledClear[1], scaledClear[0], scaledClear[1]);
     }
+
+
 
     private int[] getScaledImageSize(int originalWidth, int originalHeight, float reductionFactor) {
         int imageWidth = (int) (originalWidth * reductionFactor);
