@@ -14,15 +14,15 @@ public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
     public static final HUDHandler INSTANCE = new HUDHandler();
 
     public static final ResourceLocation SKINT_CLEAR = new ResourceLocation(GuidingSkintMod.MOD_ID, "textures/gui/guiding_skint_cleared.png");
-    public static final ResourceLocation SKINT_CLEAR_LINE = new ResourceLocation(GuidingSkintMod.MOD_ID, "textures/gui/skint_line.png");
     public static final ResourceLocation SKINT_CLEAR_SHADOW = new ResourceLocation(GuidingSkintMod.MOD_ID, "textures/gui/guiding_skint_cleared_shadow.png");
 
     private static final long DISPLAY_DURATION = 5000;
-    private static final long FADE_DURATION = 1000;
+    private static final long FADE_DURATION = 2000;
 
     private static long startTime = -1;
     private static boolean runRender = false;
     private static float alpha = 1.0f;
+    private static float scaleFactor = 0.5f;
     private static int screenWidth, screenHeight;
 
     public static void startTimer() {
@@ -51,10 +51,16 @@ public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
             alpha = 1.0f;
         }
 
+        if (elapsedTime < FADE_DURATION) {
+            scaleFactor = 0.5f + (elapsedTime / (float) FADE_DURATION) * 0.3f;
+        } else {
+            scaleFactor = 0.8f;
+        }
+
         screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
         screenHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
 
-        int[] scaledDimensions = getScaledImageSize(430, 39, 0.8f);
+        int[] scaledDimensions = getScaledImageSize(430, 39, scaleFactor);
         int[] shadow = getScaledImageSize(692, 120, 1);
 
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, alpha);
