@@ -1,7 +1,6 @@
 package net.flaim.guiding_skint.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.flaim.guiding_skint.GuidingSkintMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -10,7 +9,6 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
-import org.jetbrains.annotations.NotNull;
 
 public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
     public static final HUDHandler INSTANCE = new HUDHandler();
@@ -19,40 +17,58 @@ public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
     public static final ResourceLocation SKINT_CLEAR_LINE = new ResourceLocation(GuidingSkintMod.MOD_ID, "textures/gui/skint_line.png");
     public static final ResourceLocation SKINT_CLEAR_SHADOW = new ResourceLocation(GuidingSkintMod.MOD_ID, "textures/gui/guiding_skint_cleared_shadow.png");
 
+    private static final long DISPLAY_DURATION = 5000;
+    private static final long FADE_DURATION = 1000;
 
-    @Override
-    public void onResourceManagerReload(@NotNull ResourceManager resourceManager) {
+    private static long startTime = -1;
+    private static boolean runRender = false;
+    private static float alpha = 1.0f;
+    private static int screenWidth, screenHeight;
 
-    }
-
-    public static void showImageFor5Seconds() {
+    public static void startTimer() {
+        startTime = System.currentTimeMillis();
+        runRender = true;
     }
 
     @Override
     public void render(ForgeGui forgeGui, GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
-        int screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
-        int screenHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
+        if (!runRender) return;
 
-        int[] scaledDimensions = getScaledImageSize(430, 39, 0.8);
-        int imageWidth = scaledDimensions[0];
-        int imageHeight = scaledDimensions[1];
+        long currentTime = System.currentTimeMillis();
+        long elapsedTime = currentTime - startTime;
 
+        if (elapsedTime > DISPLAY_DURATION + FADE_DURATION) {
+            runRender = false;
+            return;
+        }
+
+        if (elapsedTime < FADE_DURATION) {
+            alpha = elapsedTime / (float) FADE_DURATION;
+        } else if (elapsedTime > DISPLAY_DURATION) {
+            long fadeOutElapsed = elapsedTime - DISPLAY_DURATION;
+            alpha = 1.0f - (fadeOutElapsed / (float) FADE_DURATION);
+        } else {
+            alpha = 1.0f;
+        }
+
+        screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
+        screenHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
+
+        int[] scaledDimensions = getScaledImageSize(430, 39, 0.8f);
         int[] shadow = getScaledImageSize(692, 120, 1);
-        int imageShadowWidth = shadow[0];
-        int imageShadowHeight = shadow[1];
 
-        guiGraphics.blit(SKINT_CLEAR_SHADOW, (int) (screenWidth - imageShadowWidth) / 2, (int) (screenHeight - imageShadowHeight) / 2, 0, 0, imageShadowWidth, imageShadowHeight, imageShadowWidth, imageShadowHeight);
-        guiGraphics.blit(SKINT_CLEAR, (int) (screenWidth - imageWidth) / 2, (int) (screenHeight - imageHeight) / 2, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, alpha);
+        guiGraphics.blit(SKINT_CLEAR_SHADOW, (screenWidth - shadow[0]) / 2, (screenHeight - shadow[1]) / 2, 0, 0, shadow[0], shadow[1], shadow[0], shadow[1]);
+
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, alpha);
+        guiGraphics.blit(SKINT_CLEAR, (screenWidth - scaledDimensions[0]) / 2, (screenHeight - scaledDimensions[1]) / 2, 0, 0, scaledDimensions[0], scaledDimensions[1], scaledDimensions[0], scaledDimensions[1]);
     }
 
-    public int[] getScaledImageSize(int originalWidth, int originalHeight, double reductionFactor) {
-        int screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
-        int screenHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
-
+    private int[] getScaledImageSize(int originalWidth, int originalHeight, float reductionFactor) {
         int imageWidth = (int) (originalWidth * reductionFactor);
         int imageHeight = (int) (originalHeight * reductionFactor);
 
-        double scaleFactor = 4.0 / Minecraft.getInstance().getWindow().getGuiScale();
+        float scaleFactor = (float) (4.0f / Minecraft.getInstance().getWindow().getGuiScale());
         imageWidth *= scaleFactor;
         imageHeight *= scaleFactor;
 
@@ -69,4 +85,8 @@ public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
         return new int[]{imageWidth, imageHeight};
     }
 
+    @Override
+    public void onResourceManagerReload(ResourceManager resourceManager) {
+
+    }
 }
