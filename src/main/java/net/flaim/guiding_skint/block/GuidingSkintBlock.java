@@ -6,6 +6,11 @@ import net.flaim.guiding_skint.network.PacketHandler;
 import net.flaim.guiding_skint.particle.WispParticleOptions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -29,6 +34,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GuidingSkintBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
     public static final BooleanProperty INFECTED = BooleanProperty.create("infected");
@@ -63,14 +71,46 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
 
     @Override
     public @NotNull InteractionResult use(BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
-        if (state.getValue(INFECTED) && !level.isClientSide()) {
-            level.setBlockAndUpdate(pos, state.setValue(INFECTED, false));
-            PacketHandler.sendToAll(new BlockStartAnimationS2C(pos));
-            return InteractionResult.SUCCESS;
-        }
+        if (!level.isClientSide()) {
+            if (state.getValue(INFECTED)) {
+                level.setBlockAndUpdate(pos, state.setValue(INFECTED, false));
+                PacketHandler.sendToAll(new BlockStartAnimationS2C(pos));
+                CompoundTag playerNBT = player.getPersistentData();
 
+                if (!playerNBT.contains("ActivatedGuidingSkint", Tag.TAG_LIST)) {
+                    playerNBT.put("ActivatedGuidingSkint", new ListTag());
+                }
+
+                ListTag guidingSkintList = playerNBT.getList("ActivatedGuidingSkint", Tag.TAG_STRING);
+
+                String blockPosition = pos.getX() + "," + pos.getY() + "," + pos.getZ();
+
+                boolean alreadyExists = false;
+                for (int i = 0; i < guidingSkintList.size(); i++) {
+                    StringTag guidingSkint = (StringTag) guidingSkintList.get(i);
+                    if (guidingSkint.getAsString().equals(blockPosition)) {
+                        alreadyExists = true;
+                        break;
+                    }
+                }
+
+                if (!alreadyExists) {
+                    guidingSkintList.add(StringTag.valueOf(blockPosition));
+                }
+
+                playerNBT.put("ActivatedGuidingSkint", guidingSkintList);
+
+                for (int i = 0; i < guidingSkintList.size(); i++) {
+                    StringTag guidingSkint = (StringTag) guidingSkintList.get(i);
+                    System.out.println((i + 1) + "" + guidingSkint.getAsString());
+                }
+
+                return InteractionResult.SUCCESS;
+            }
+        }
         return InteractionResult.PASS;
     }
+
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
