@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.flaim.guiding_skint",
+  "refmap": "guiding_skint.refmap.json",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "mixins.PlayerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
