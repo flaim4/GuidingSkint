@@ -71,45 +71,38 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
 
     @Override
     public @NotNull InteractionResult use(BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
-        if (!level.isClientSide()) {
-            if (state.getValue(INFECTED)) {
-                level.setBlockAndUpdate(pos, state.setValue(INFECTED, false));
-                PacketHandler.sendToAll(new BlockStartAnimationS2C(pos));
-                CompoundTag playerNBT = player.getPersistentData();
+        if (level.isClientSide() || !state.getValue(INFECTED)) {
+            return InteractionResult.PASS;
+        }
 
-                if (!playerNBT.contains("ActivatedGuidingSkint", Tag.TAG_LIST)) {
-                    playerNBT.put("ActivatedGuidingSkint", new ListTag());
-                }
+        level.setBlockAndUpdate(pos, state.setValue(INFECTED, false));
+        PacketHandler.sendToAll(new BlockStartAnimationS2C(pos));
+        CompoundTag playerNBT = player.getPersistentData();
+        ListTag guidingSkintList = playerNBT.getList("ActivatedGuidingSkint", Tag.TAG_STRING);
+        ListTag updatedList = new ListTag();
 
-                ListTag guidingSkintList = playerNBT.getList("ActivatedGuidingSkint", Tag.TAG_STRING);
-
-                String blockPosition = pos.getX() + "," + pos.getY() + "," + pos.getZ();
-
-                boolean alreadyExists = false;
-                for (int i = 0; i < guidingSkintList.size(); i++) {
-                    StringTag guidingSkint = (StringTag) guidingSkintList.get(i);
-                    if (guidingSkint.getAsString().equals(blockPosition)) {
-                        alreadyExists = true;
-                        break;
-                    }
-                }
-
-                if (!alreadyExists) {
-                    guidingSkintList.add(StringTag.valueOf(blockPosition));
-                }
-
-                playerNBT.put("ActivatedGuidingSkint", guidingSkintList);
-
-                for (int i = 0; i < guidingSkintList.size(); i++) {
-                    StringTag guidingSkint = (StringTag) guidingSkintList.get(i);
-                    System.out.println((i + 1) + "" + guidingSkint.getAsString());
-                }
-
-                return InteractionResult.SUCCESS;
+        for (int i = 0; i < guidingSkintList.size(); i++) {
+            StringTag guidingSkintTag = (StringTag) guidingSkintList.get(i);
+            String[] parts = guidingSkintTag.getAsString().split(";");
+            String[] coords = parts[0].split(",");
+            BlockPos blockPos = new BlockPos(Integer.parseInt(coords[0]), Integer.parseInt(coords[1]), Integer.parseInt(coords[2]));
+            if (!level.getBlockState(blockPos).isAir()) {
+                updatedList.add(guidingSkintTag);
             }
         }
-        return InteractionResult.PASS;
+
+        String blockData = pos.getX() + "," + pos.getY() + "," + pos.getZ() + ";" + state;
+        if (updatedList.stream().map(Tag::getAsString).noneMatch(blockData::equals)) {
+            updatedList.add(StringTag.valueOf(blockData));
+        }
+
+        playerNBT.put("ActivatedGuidingSkint", updatedList);
+        updatedList.forEach(tag -> System.out.println("GuidingSkint: " + tag.getAsString()));
+
+        return InteractionResult.SUCCESS;
     }
+
+
 
 
     @Override
