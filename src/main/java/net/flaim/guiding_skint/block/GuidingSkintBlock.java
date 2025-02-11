@@ -102,9 +102,6 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
         return InteractionResult.SUCCESS;
     }
 
-
-
-
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, WATERLOGGED, INFECTED);

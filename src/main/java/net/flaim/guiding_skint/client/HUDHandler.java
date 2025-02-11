@@ -1,14 +1,16 @@
 package net.flaim.guiding_skint.client;
 
+import net.flaim.guiding_skint.GuidingSkintMod;
+import net.flaim.guiding_skint.client.widgets.ScrollBarButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
-import java.util.List;
 
 public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
     public static final HUDHandler INSTANCE = new HUDHandler();
@@ -17,19 +19,23 @@ public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
     private static boolean runRender = false;
     private static int screenWidth, screenHeight;
 
+    private ScrollBarButton scrollBarButton;
+
+
     public static void startTimer() {
         startTime = System.currentTimeMillis();
         runRender = true;
     }
 
+    private static final ResourceLocation SKINT_CLEAR_SHADOW = new ResourceLocation(GuidingSkintMod.MOD_ID, "textures/gui/skint_ui.png");
+
     @Override
     public void render(ForgeGui forgeGui, GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
-
+        if (scrollBarButton == null) {
+            scrollBarButton = new ScrollBarButton(0, 100, 100, 8, 171, 171, 36);
+        }
+        scrollBarButton.render(guiGraphics, mouseX, mouseY, partialTicks);
     }
-
-
-
-
 
     private int[] getScaledImageSize(int originalWidth, int originalHeight, float reductionFactor) {
         int imageWidth = (int) (originalWidth * reductionFactor);
