@@ -1,29 +1,11 @@
 package net.flaim.guiding_skint.client.widgets;
 
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
-import net.minecraftforge.client.event.RenderTooltipEvent;
-
-import java.awt.*;
 
 public class ScrollBarButton extends Button {
-    public ScrollBarButton(int buttonId, int x, int y, int width, int height, int visibleHeight, int contentHeight) {
-        super(new Builder(Component.empty(), button -> {}).pos(x, y).size(width, height));
+
+    protected ScrollBarButton(int p_259075_, int p_259271_, int p_260232_, int p_260028_, Component p_259351_, OnPress p_260152_, CreateNarration p_259552_) {
+        super(p_259075_, p_259271_, p_260232_, p_260028_, p_259351_, p_260152_, p_259552_);
     }
-
-    public int getBottom() {
-        return getY() + height;
-    }
-
-    @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        if (visible) {
-            guiGraphics.setColor(1, 1, 1, 0.5f);
-            guiGraphics.fill(getX(), getY(), getX() + width, getBottom(), new Color(0, 0, 0, 0.5F).hashCode());
-            guiGraphics.setColor(1, 1, 1, 1);
-        }
-    }
-
-
 }

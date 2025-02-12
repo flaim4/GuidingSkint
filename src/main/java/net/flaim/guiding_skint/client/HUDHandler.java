@@ -1,5 +1,6 @@
 package net.flaim.guiding_skint.client;
 
+import com.mojang.blaze3d.platform.Window;
 import net.flaim.guiding_skint.GuidingSkintMod;
 import net.flaim.guiding_skint.client.widgets.ScrollBarButton;
 import net.minecraft.client.Minecraft;
@@ -18,6 +19,9 @@ public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
     private static long startTime = -1;
     private static boolean runRender = false;
     private static int screenWidth, screenHeight;
+    private static Window window = Minecraft.getInstance().getWindow();
+    public static int windowHeight;
+    public static int windowWidth;
 
     private ScrollBarButton scrollBarButton;
 
@@ -31,12 +35,10 @@ public class HUDHandler implements ResourceManagerReloadListener, IGuiOverlay {
 
     @Override
     public void render(ForgeGui forgeGui, GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
-        if (scrollBarButton == null) {
-            scrollBarButton = new ScrollBarButton(0, 100, 100, 8, 171, 171, 36);
-        }
-        scrollBarButton.render(guiGraphics, mouseX, mouseY, partialTicks);
+        windowWidth = window.getGuiScaledWidth();
+        windowHeight = window.getGuiScaledHeight();
+        RenderUI.render(guiGraphics);
     }
-
     private int[] getScaledImageSize(int originalWidth, int originalHeight, float reductionFactor) {
         int imageWidth = (int) (originalWidth * reductionFactor);
         int imageHeight = (int) (originalHeight * reductionFactor);

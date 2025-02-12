@@ -43,7 +43,6 @@ public class GuidingSkintBlockEntity extends BlockEntity implements GeoBlockEnti
         double maxRadius = 1.0;
         double speedMultiplier = maxRadius / 0.03f;
 
-
         red = 252.0f / 255.0f;
         green = 232.0f / 255.0f;
         blue = 123.0f / 255.0f;
