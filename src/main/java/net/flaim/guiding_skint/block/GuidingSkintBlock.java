@@ -1,9 +1,11 @@
 package net.flaim.guiding_skint.block;
 
 import net.flaim.guiding_skint.Registries;
+import net.flaim.guiding_skint.client.HUDHandler;
 import net.flaim.guiding_skint.network.BlockStartAnimationS2C;
 import net.flaim.guiding_skint.network.PacketHandler;
 import net.flaim.guiding_skint.particle.WispParticleOptions;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -71,6 +73,9 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
 
     @Override
     public @NotNull InteractionResult use(BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
+        if (level.isClientSide() && !state.getValue(INFECTED)) {
+            Minecraft.getInstance().execute(() -> Minecraft.getInstance().setScreen(new HUDHandler()));
+        }
         if (level.isClientSide() || !state.getValue(INFECTED)) {
             return InteractionResult.PASS;
         }

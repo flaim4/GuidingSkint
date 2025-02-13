@@ -24,8 +24,4 @@ public class GuidingSkintModClient {
         event.registerSpriteSet(Registries.WISP.get(), Wisp.NormalFactory::new);
     }
 
-    @SubscribeEvent
-    public static void registerOverlayEvent(RegisterGuiOverlaysEvent event) {
-        event.registerAboveAll("hud", HUDHandler.INSTANCE);
-    }
 }

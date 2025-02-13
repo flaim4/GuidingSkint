@@ -85,7 +85,6 @@ public class GuidingSkintBlockEntity extends BlockEntity implements GeoBlockEnti
 
                 if (currentTime >= triggerTime) {
                     spawnParticleWave(level, getBlockPos(), RandomSource.create());
-                    HUDHandler.startTimer();
                     triggerTime = -1;
                 }
             }
