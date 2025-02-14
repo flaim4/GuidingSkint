@@ -7,40 +7,29 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraftforge.client.gui.widget.ScrollPanel;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class Scroll extends ScrollPanel {
-    static Minecraft minecraft = Minecraft.getInstance();
 
-    ArrayList<String> formattedCharSequence = new ArrayList<>(Arrays.asList(
-            "Текст 1", "Текст 2", "Текст 3", "Текст 4", "Текст 5", "Текст 6", "Текст 7", "Текст 8"
-    ));
+    Minecraft client;
 
-    static Color color = new Color(0.0f, 0.0f, 0.0f, 0.6f);
-
-    private double scrollDistance = 0;
+    String[] arr = new String[]{"text1", "text2", "text3", "text4", "text5", "text2", "text3", "text4", "text5", "text2", "text3", "text4", "text5"};
 
     public Scroll(Minecraft client, int width, int height, int top, int left) {
         super(client, width, height, top, left);
+        this.client = client;
     }
 
     @Override
     protected int getContentHeight() {
-        return formattedCharSequence.size() * 50;
+        return arr.length * 50;
     }
 
     @Override
     protected void drawPanel(GuiGraphics guiGraphics, int i, int i1, Tesselator tesselator, int i2, int i3) {
         int yPos = i1 - (int) scrollDistance;
-
-        for (String line : formattedCharSequence) {
-            if (line != null) {
-                RenderSystem.enableBlend();
-                guiGraphics.drawString(minecraft.font, line, this.left + 6, yPos, 0xFFFFFF);
-                RenderSystem.disableBlend();
-            }
+        for (String line : arr) {
+            RenderSystem.enableBlend();
+            guiGraphics.drawString(this.client.font, line, this.left + 6, yPos, 0xFFFFFF);
+            RenderSystem.disableBlend();
             yPos += 50;
         }
     }
@@ -75,10 +64,11 @@ public class Scroll extends ScrollPanel {
 
     @Override
     public NarrationPriority narrationPriority() {
-        return null;
+        return NarrationPriority.NONE;
     }
 
     @Override
     public void updateNarration(NarrationElementOutput narrationElementOutput) {
+
     }
 }

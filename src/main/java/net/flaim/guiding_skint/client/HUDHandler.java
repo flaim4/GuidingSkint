@@ -1,5 +1,6 @@
 package net.flaim.guiding_skint.client;
 
+import net.flaim.guiding_skint.client.widget.Scroll;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -7,37 +8,21 @@ import net.minecraft.network.chat.Component;
 
 public class HUDHandler extends Screen {
 
+    Minecraft minecraft = Minecraft.getInstance();
+    int widthWindow;
+    int heightWindow;
 
     public HUDHandler() {
         super(Component.empty());
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        super.render(guiGraphics, mouseX, mouseY, partialTicks);
-//        guiGraphics.drawString(minecraft.font, "Skint", (width / 2) - minecraft.font.width(Component.translatable("Skint")) / 2, (height / 2) - (minecraft.font.lineHeight / 2) - 20, 0xFFFFFF);
-        RenderUI.render(guiGraphics);
+    public void init() {
+        widthWindow = minecraft.getWindow().getGuiScaledWidth();
+        heightWindow = minecraft.getWindow().getGuiScaledHeight();
+        Scroll scroll = new Scroll(minecraft, 300, 300, (heightWindow / 2) - 150, (widthWindow / 2) - 150);
+        this.addRenderableWidget(scroll);
     }
 
-//    private int[] getScaledImageSize(int originalWidth, int originalHeight, float reductionFactor) {
-//        int imageWidth = (int) (originalWidth * reductionFactor);
-//        int imageHeight = (int) (originalHeight * reductionFactor);
-//
-//        float scaleFactor = (float) (4.0f / Minecraft.getInstance().getWindow().getGuiScale());
-//        imageWidth *= scaleFactor;
-//        imageHeight *= scaleFactor;
-//
-//        if (imageWidth > screenWidth || imageHeight > screenHeight) {
-//            double widthRatio = (double) screenWidth / imageWidth;
-//            double heightRatio = (double) screenHeight / imageHeight;
-//
-//            double scale = Math.min(widthRatio, heightRatio);
-//
-//            imageWidth = (int) ((imageWidth * scale) * reductionFactor);
-//            imageHeight = (int) ((imageHeight * scale) * reductionFactor);
-//        }
-//
-//        return new int[]{imageWidth, imageHeight};
-//    }
 
 }
