@@ -5,13 +5,20 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraftforge.client.gui.widget.ScrollPanel;
 
 public class Scroll extends ScrollPanel {
 
     Minecraft client;
 
-    String[] arr = new String[]{"text1", "text2", "text3", "text4", "text5", "text2", "text3", "text4", "text5", "text2", "text3", "text4", "text5"};
+    static ListTag listTag;
+
+    public static void handleGuidingSkint(ListTag receivedListTag) {
+        listTag = receivedListTag;
+    }
 
     public Scroll(Minecraft client, int width, int height, int top, int left) {
         super(client, width, height, top, left);
@@ -20,15 +27,17 @@ public class Scroll extends ScrollPanel {
 
     @Override
     protected int getContentHeight() {
-        return arr.length * 50;
+        return listTag.size();
     }
 
     @Override
     protected void drawPanel(GuiGraphics guiGraphics, int i, int i1, Tesselator tesselator, int i2, int i3) {
+        CompoundTag playerNBT = client.player.getPersistentData();
         int yPos = i1 - (int) scrollDistance;
-        for (String line : arr) {
+        for (Tag line : listTag) {
             RenderSystem.enableBlend();
-            guiGraphics.drawString(this.client.font, line, this.left + 6, yPos, 0xFFFFFF);
+            String lineText = line.getAsString();
+            guiGraphics.drawString(this.client.font, lineText, this.left + 6, yPos, 0xFFFFFF);
             RenderSystem.disableBlend();
             yPos += 50;
         }

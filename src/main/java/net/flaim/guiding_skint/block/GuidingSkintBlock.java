@@ -13,6 +13,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -63,6 +64,12 @@ public class GuidingSkintBlock extends HorizontalDirectionalBlock implements Sim
 
     @Override
     public @NotNull InteractionResult use(BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
+        if (!level.isClientSide()) {
+            CompoundTag playerNBT = player.getPersistentData();
+            ListTag guidingSkintList = playerNBT.getList("ActivatedGuidingSkint", Tag.TAG_STRING);
+
+            PacketHandler.sendToPlayer((ServerPlayer) player, guidingSkintList);
+        }
         if (level.isClientSide() && !state.getValue(INFECTED)) {
             Minecraft.getInstance().execute(() -> Minecraft.getInstance().setScreen(new HUDHandler()));
         }
