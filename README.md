@@ -1,3 +1,1 @@
-<img src="https://github.com/flaim4/GuidingSkint/blob/robot/cover.png" width="100%"/>
-<img src="https://github.com/flaim4/GuidingSkint/blob/robot/2025-01-26_23.18.56.png"/>
-<img src="https://github.com/flaim4/GuidingSkint/blob/robot/2025-01-26_23.17.23.png"/>
+<img style="width: 100%; height: auto;" src="https://raw.githubusercontent.com/flaim4/GuidingSkint/robot/image/44321551-4d89-482f-80f0-b381213e0239.jpg" />
