@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraftforge.client.gui.widget.ScrollPanel;
@@ -27,30 +26,50 @@ public class Scroll extends ScrollPanel {
 
     @Override
     protected int getContentHeight() {
-        return listTag.size();
+        if (listTag == null) {
+            return 0;
+        }
+        return listTag.size() * 50;
     }
 
     @Override
     protected void drawPanel(GuiGraphics guiGraphics, int i, int i1, Tesselator tesselator, int i2, int i3) {
-        CompoundTag playerNBT = client.player.getPersistentData();
         int yPos = i1 - (int) scrollDistance;
+        if (listTag == null) {
+            return;
+        }
+
+        guiGraphics.fill(this.left, this.top, this.left + this.width, this.top + this.height, 0x55000000);
+
         for (Tag line : listTag) {
-            RenderSystem.enableBlend();
-            String lineText = line.getAsString();
-            guiGraphics.drawString(this.client.font, lineText, this.left + 6, yPos, 0xFFFFFF);
-            RenderSystem.disableBlend();
+            if (yPos + 50 >= this.top && yPos <= this.top + this.height) {
+                RenderSystem.enableBlend();
+                String lineText = line.getAsString();
+                guiGraphics.drawString(this.client.font, lineText, this.left + 6, yPos, 0xFFFFFF);
+                RenderSystem.disableBlend();
+            }
             yPos += 50;
         }
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double scroll) {
-        if (scroll != 0) {
-            scrollDistance += (scroll < 0 ? 20 : -20);
-            applyScrollLimits();
-            return true;
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        super.render(guiGraphics, mouseX, mouseY, partialTicks);
+
+        int contentHeight = getContentHeight();
+        if (contentHeight > this.height) {
+            int scrollbarHeight = Math.max(20, (int) ((float) this.height / contentHeight * this.height));
+            int scrollbarPos = (int) ((float) scrollDistance / getMaxScroll() * (this.height - scrollbarHeight));
+
+            guiGraphics.fill(this.left + this.width - 6, this.top + scrollbarPos, this.left + this.width - 2, this.top + scrollbarPos + scrollbarHeight, 0xFFAAAAAA);
         }
-        return false;
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scroll) {
+        scrollDistance += (scroll < 0 ? 30 : -30);
+        applyScrollLimits();
+        return true;
     }
 
     @Override
@@ -68,7 +87,8 @@ public class Scroll extends ScrollPanel {
     }
 
     private int getMaxScroll() {
-        return getContentHeight() - (this.height - this.border);
+        int contentHeight = getContentHeight();
+        return Math.max(0, contentHeight - this.height);
     }
 
     @Override
@@ -78,6 +98,5 @@ public class Scroll extends ScrollPanel {
 
     @Override
     public void updateNarration(NarrationElementOutput narrationElementOutput) {
-
     }
 }
